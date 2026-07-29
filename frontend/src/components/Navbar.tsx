@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Home,
@@ -7,8 +7,12 @@ import {
   Clock,
   Settings,
   Brain,
+  LogOut,
+  User,
 } from 'lucide-react';
 import clsx from 'clsx';
+import toast from 'react-hot-toast';
+import { useStore } from '../store/useStore';
 
 const navItems = [
   { to: '/', label: 'Home', icon: Home },
@@ -19,6 +23,15 @@ const navItems = [
 ];
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const { user, logout } = useStore();
+
+  const handleLogout = () => {
+    logout();
+    toast.success('Logged out successfully');
+    navigate('/login');
+  };
+
   return (
     <nav className="flex flex-col h-full p-4">
       <div className="flex items-center gap-3 px-3 py-4 mb-8">
@@ -71,13 +84,28 @@ export default function Navbar() {
         ))}
       </div>
 
-      <div className="px-3 py-4 mt-auto">
-        <div className="glass rounded-xl p-3">
-          <div className="flex items-center gap-2 text-xs text-dark-400">
-            <div className="w-2 h-2 rounded-full bg-secondary-500 shadow-lg shadow-secondary-500/50 animate-pulse-soft" />
-            <span>System Ready</span>
+      {user && (
+        <div className="px-3 py-3 mb-2 glass rounded-xl">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500/30 to-violet-600/30 flex items-center justify-center border border-white/[0.06]">
+              <User className="w-4 h-4 text-primary-400" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-white truncate">{user.name}</p>
+              <p className="text-xs text-dark-400 truncate">{user.email}</p>
+            </div>
           </div>
         </div>
+      )}
+
+      <div className="px-3 py-2">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-dark-400 hover:text-red-400 hover:bg-red-500/5 transition-all duration-200"
+        >
+          <LogOut className="w-5 h-5" />
+          <span>Sign Out</span>
+        </button>
       </div>
     </nav>
   );

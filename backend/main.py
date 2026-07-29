@@ -9,7 +9,7 @@ from fastapi.staticfiles import StaticFiles
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from database import init_db
-from routes import analysis_router, history_router, dashboard_router
+from routes import analysis_router, history_router, dashboard_router, auth_router
 
 
 @asynccontextmanager
@@ -33,6 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router)
 app.include_router(analysis_router)
 app.include_router(history_router)
 app.include_router(dashboard_router)

@@ -6,9 +6,9 @@ import type {
   ScoreData,
   TrendData,
   SessionSummary,
+  User,
 } from '../types';
 
-// Raw backend response types (may differ from frontend types)
 interface RawAnalysisResult {
   type: string;
   posture: PostureData | null;
@@ -19,7 +19,18 @@ interface RawAnalysisResult {
   overlay_frame?: string;
 }
 
-interface AppState {
+interface AuthState {
+  user: User | null;
+  token: string | null;
+  isAuthLoading: boolean;
+
+  setAuth: (user: User, token: string) => void;
+  logout: () => void;
+  setUser: (user: User) => void;
+  loadAuth: () => void;
+}
+
+interface AppState extends AuthState {
   isSessionActive: boolean;
   currentSessionId: number | null;
   latestPosture: PostureData | null;
@@ -47,6 +58,27 @@ interface AppState {
 }
 
 export const useStore = create<AppState>((set) => ({
+  user: null,
+  token: localStorage.getItem('token'),
+  isAuthLoading: true,
+
+  setAuth: (user, token) => {
+    localStorage.setItem('token', token);
+    set({ user, token, isAuthLoading: false });
+  },
+
+  logout: () => {
+    localStorage.removeItem('token');
+    set({ user: null, token: null, isAuthLoading: false });
+  },
+
+  setUser: (user) => set({ user }),
+
+  loadAuth: () => {
+    const token = localStorage.getItem('token');
+    set({ token, isAuthLoading: false });
+  },
+
   isSessionActive: false,
   currentSessionId: null,
   latestPosture: null,
