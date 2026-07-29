@@ -248,12 +248,30 @@ export default function Analysis() {
         </div>
 
         <div className="lg:col-span-2 space-y-4 max-h-[calc(100vh-10rem)] overflow-y-auto pr-2">
-          <div className="sticky top-0 z-10 pb-2" style={{ background: '#0f172a' }}>
-            <OverallScoreCard scores={latestScores} />
-          </div>
-          <PostureScoreCard posture={latestPosture} score={latestScores?.posture ?? 0} />
-          <EyeBlinkScoreCard blinkData={latestEyeBlink} score={latestScores?.eye_blink ?? 0} />
-          <DiseaseRiskCard diseaseRisk={latestDiseaseRisk} score={latestScores?.disease_risk ?? 0} />
+          {isSessionActive || latestScores ? (
+            <>
+              <div className="sticky top-0 z-10 pb-2" style={{ background: '#0f172a' }}>
+                <OverallScoreCard scores={latestScores} />
+              </div>
+              <PostureScoreCard posture={latestPosture} score={latestScores?.posture ?? 0} />
+              <EyeBlinkScoreCard blinkData={latestEyeBlink} score={latestScores?.eye_blink ?? 0} />
+              <DiseaseRiskCard diseaseRisk={latestDiseaseRisk} score={latestScores?.disease_risk ?? 0} />
+            </>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-center justify-center py-20 text-center glass-card"
+            >
+              <div className="w-20 h-20 rounded-2xl bg-dark-800/50 flex items-center justify-center mb-6">
+                <Activity className="w-10 h-10 text-dark-500" />
+              </div>
+              <h2 className="text-xl font-semibold text-white mb-2">Ready to analyze</h2>
+              <p className="text-sm text-dark-400 mb-6 max-w-md">
+                Start your camera and begin a session to see real-time posture analysis, blink rate tracking, and disease risk assessment.
+              </p>
+            </motion.div>
+          )}
         </div>
       </div>
     </div>

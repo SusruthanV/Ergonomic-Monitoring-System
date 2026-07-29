@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { RefreshCw, Clock, Activity, TrendingUp, Award, Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { RefreshCw, Clock, Activity, TrendingUp, Award, Calendar, Play } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { api } from '../services/api';
 import OverallScoreCard from '../components/OverallScoreCard';
@@ -20,6 +21,7 @@ function getGreeting(): string {
 }
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const {
     trends,
     sessions,
@@ -54,7 +56,7 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  if (loading && !dashboardSummary) {
+  if (loading) {
     return (
       <div className="space-y-4">
         <div className="skeleton h-8 w-64 mb-4" />
@@ -67,6 +69,31 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+    );
+  }
+
+  if (!dashboardSummary) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col items-center justify-center py-20 text-center"
+      >
+        <div className="w-20 h-20 rounded-2xl bg-dark-800/50 flex items-center justify-center mb-6">
+          <Activity className="w-10 h-10 text-dark-500" />
+        </div>
+        <h2 className="text-xl font-semibold text-white mb-2">No data yet</h2>
+        <p className="text-sm text-dark-400 mb-6 max-w-md">
+          Start an analysis session to see your ergonomic health dashboard with scores, trends, and activity history.
+        </p>
+        <button
+          onClick={() => navigate('/analysis')}
+          className="px-6 py-3 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-all duration-200 flex items-center gap-2"
+        >
+          <Play className="w-4 h-4" />
+          Start Analysis
+        </button>
+      </motion.div>
     );
   }
 
@@ -159,21 +186,37 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-        <OverallScoreCard scores={latestScores} />
-        <div className="space-y-4">
-          <PostureScoreCard
-            posture={latestScores ? { neck_angle: 0, shoulder_angle: 0, spine_angle: 0, is_good_posture: true, feedback: 'Awaiting session data' } : null}
-            score={latestScores?.posture ?? 0}
-          />
-          <EyeBlinkScoreCard
-            blinkData={latestScores ? { ear_value: 0.3, is_blink: false, blink_count: 0, blink_rate: 15, total_blinks: 0 } : null}
-            score={latestScores?.eye_blink ?? 0}
-          />
-          <DiseaseRiskCard
-            diseaseRisk={latestScores ? { cervical_spondylosis: 0, carpal_tunnel: 0, text_neck: 0, scoliosis_risk: 0, lower_back_pain: 0, overall_risk_score: 0, recommendations: [] } : null}
-            score={latestScores?.disease_risk ?? 0}
-          />
-        </div>
+        {latestScores ? (
+          <OverallScoreCard scores={latestScores} />
+        ) : (
+          <div className="glass-card p-8 flex flex-col items-center justify-center text-center">
+            <Activity className="w-12 h-12 text-dark-500 mb-3" />
+            <p className="text-sm text-dark-400">No recent session data</p>
+            <p className="text-xs text-dark-500 mt-1">Start an analysis to see your scores here</p>
+          </div>
+        )}
+        {latestScores ? (
+          <div className="space-y-4">
+            <PostureScoreCard
+              posture={{ neck_angle: 0, shoulder_angle: 0, spine_angle: 0, is_good_posture: true, feedback: 'Awaiting session data' }}
+              score={latestScores?.posture ?? 0}
+            />
+            <EyeBlinkScoreCard
+              blinkData={{ ear_value: 0.3, is_blink: false, blink_count: 0, blink_rate: 15, total_blinks: 0 }}
+              score={latestScores?.eye_blink ?? 0}
+            />
+            <DiseaseRiskCard
+              diseaseRisk={{ cervical_spondylosis: 0, carpal_tunnel: 0, text_neck: 0, scoliosis_risk: 0, lower_back_pain: 0, overall_risk_score: 0, recommendations: [] }}
+              score={latestScores?.disease_risk ?? 0}
+            />
+          </div>
+        ) : (
+          <div className="glass-card p-8 flex flex-col items-center justify-center text-center">
+            <Activity className="w-12 h-12 text-dark-500 mb-3" />
+            <p className="text-sm text-dark-400">No recent session data</p>
+            <p className="text-xs text-dark-500 mt-1">Complete an analysis session to populate these cards</p>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
