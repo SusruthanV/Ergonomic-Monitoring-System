@@ -89,7 +89,7 @@ export default function ActivityTimeline({ sessions, onSessionClick, onDeleteSes
           variants={item}
           whileHover={{ scale: 1.01, x: 2 }}
           className={clsx(
-            'glass rounded-xl p-4 cursor-pointer group transition-all duration-200 border',
+            'glass rounded-xl p-4 cursor-pointer group transition-all duration-300 ease-out border',
             scoreBorderColor(session.overall_score)
           )}
           onClick={() => onSessionClick?.(session)}
@@ -131,12 +131,12 @@ export default function ActivityTimeline({ sessions, onSessionClick, onDeleteSes
                     e.stopPropagation();
                     onDeleteSession(session.id);
                   }}
-                  className="p-2 rounded-lg text-dark-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 opacity-0 group-hover:opacity-100"
+                  className="p-2 rounded-lg text-dark-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-300 ease-out opacity-0 group-hover:opacity-100"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
               )}
-              <ArrowRight className="w-4 h-4 text-dark-500 group-hover:text-primary-400 transition-all duration-200" />
+              <ArrowRight className="w-4 h-4 text-dark-500 group-hover:text-primary-400 transition-all duration-300 ease-out" />
             </div>
           </div>
         </motion.div>

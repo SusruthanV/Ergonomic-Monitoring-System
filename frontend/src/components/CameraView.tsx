@@ -125,7 +125,7 @@ export default function CameraView({
           {!isCameraActive ? (
             <button
               onClick={onStartCamera}
-              className="flex-1 px-4 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2"
             >
               <Camera className="w-4 h-4" />
               Start Camera
@@ -135,7 +135,7 @@ export default function CameraView({
               {!isSessionActive ? (
                 <button
                   onClick={onStartSession}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-secondary-500 to-emerald-600 hover:from-secondary-600 hover:to-emerald-700 text-white text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-secondary-500/25"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-secondary-500 to-emerald-600 hover:from-secondary-600 hover:to-emerald-700 text-white text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2 shadow-lg shadow-secondary-500/25"
                 >
                   <Play className="w-4 h-4" />
                   Start Analysis
@@ -143,7 +143,7 @@ export default function CameraView({
               ) : (
                 <button
                   onClick={onStopSession}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2"
                 >
                   <Square className="w-4 h-4" />
                   Stop Analysis
@@ -151,7 +151,7 @@ export default function CameraView({
               )}
               <button
                 onClick={onStopCamera}
-                className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-dark-300 text-sm font-medium transition-all duration-200 border border-white/[0.06]"
+                className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-dark-300 text-sm font-medium transition-all duration-300 ease-out border border-white/[0.06]"
               >
                 <CameraOff className="w-4 h-4" />
               </button>

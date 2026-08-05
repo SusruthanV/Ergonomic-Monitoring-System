@@ -143,12 +143,12 @@ export default function History() {
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search sessions by date, ID, or score..."
-          className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-sm text-white placeholder-dark-400 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all duration-200"
+          className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-sm text-white placeholder-dark-400 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all duration-300 ease-out"
         />
         {search && (
           <button
             onClick={() => setSearch('')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 hover:text-white"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 hover:text-white transition-colors duration-300 ease-out"
           >
             <X className="w-4 h-4" />
           </button>
@@ -176,7 +176,7 @@ export default function History() {
                   <button
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ease-out"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
@@ -186,7 +186,7 @@ export default function History() {
                   <button
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ease-out"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -211,7 +211,7 @@ export default function History() {
                 </h3>
                 <button
                   onClick={() => setSelectedSession(null)}
-                  className="text-dark-400 hover:text-white"
+                  className="text-dark-400 hover:text-white transition-colors duration-300 ease-out"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -320,7 +320,7 @@ export default function History() {
                 </button>
                 <button
                   onClick={() => handleDelete(confirmDelete)}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium flex items-center justify-center gap-2 transition-all duration-300 ease-out"
                 >
                   <Trash2 className="w-4 h-4" />
                   Delete

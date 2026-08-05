@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Wifi, Timer, Award } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -25,18 +25,15 @@ export default function Layout() {
       <main className="flex-1 overflow-y-auto relative">
         <div className="bg-grid absolute inset-0 opacity-[0.15] pointer-events-none" />
         <div className="relative z-10 min-h-screen">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="p-6 pb-4"
-            >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="p-6 pb-4"
+          >
+            <Outlet />
+          </motion.div>
         </div>
 
         <footer>

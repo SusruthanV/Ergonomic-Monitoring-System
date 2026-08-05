@@ -88,7 +88,7 @@ export default function Dashboard() {
         </p>
         <button
           onClick={() => navigate('/analysis')}
-          className="px-6 py-3 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-all duration-200 flex items-center gap-2"
+          className="px-6 py-3 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-all duration-300 ease-out flex items-center gap-2"
         >
           <Play className="w-4 h-4" />
           Start Analysis
@@ -152,7 +152,7 @@ export default function Dashboard() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={fetchData}
-          className="px-4 py-2 rounded-xl glass glass-hover text-sm text-dark-300 flex items-center gap-2"
+          className="px-4 py-2 rounded-xl glass glass-hover text-sm text-dark-300 flex items-center gap-2 transition-all duration-300 ease-out"
         >
           <RefreshCw className={clsx('w-4 h-4', loading && 'animate-spin')} />
           Refresh

@@ -225,7 +225,7 @@ export default function Analysis() {
               <button
                 onClick={togglePause}
                 className={clsx(
-                  'flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2',
+                  'flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2',
                   isPaused
                     ? 'bg-secondary-500 hover:bg-secondary-600 text-white'
                     : 'bg-accent-500 hover:bg-accent-600 text-white'
@@ -236,7 +236,7 @@ export default function Analysis() {
               </button>
               <button
                 onClick={stopSession}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2"
               >
                 <Square className="w-4 h-4" />
                 Stop

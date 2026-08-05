@@ -15,8 +15,11 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import clsx from 'clsx';
+import { useStore } from '../store/useStore';
 
 export default function Settings() {
+  const theme = useStore((s) => s.theme);
+  const setTheme = useStore((s) => s.setTheme);
   const [cameraDevice, setCameraDevice] = useState('default');
   const [analysisInterval, setAnalysisInterval] = useState(2000);
   const [neckThreshold, setNeckThreshold] = useState(15);
@@ -24,7 +27,6 @@ export default function Settings() {
   const [spineThreshold, setSpineThreshold] = useState(15);
   const [notifications, setNotifications] = useState(true);
   const [dataRetention, setDataRetention] = useState(90);
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [confirmReset, setConfirmReset] = useState(false);
   const [saved, setSaved] = useState(true);
 
@@ -62,7 +64,7 @@ export default function Settings() {
             <select
               value={cameraDevice}
               onChange={(e) => { setCameraDevice(e.target.value); markUnsaved(); }}
-              className="w-full px-3 py-2 rounded-xl bg-white/[0.05] border border-white/[0.08] text-sm text-white focus:outline-none focus:border-primary-500/50 transition-all duration-200 appearance-none"
+              className="w-full px-3 py-2 rounded-xl bg-white/[0.05] border border-white/[0.08] text-sm text-white focus:outline-none focus:border-primary-500/50 transition-all duration-300 ease-out appearance-none"
             >
               <option value="default">Default Camera</option>
               <option value="external">External Camera</option>
@@ -142,13 +144,13 @@ export default function Settings() {
             <button
               onClick={() => { setNotifications(!notifications); markUnsaved(); }}
               className={clsx(
-                'w-10 h-6 rounded-full transition-all duration-200 relative',
+                'w-10 h-6 rounded-full transition-all duration-300 ease-out relative',
                 notifications ? 'bg-primary-500' : 'bg-dark-600'
               )}
             >
               <div
                 className={clsx(
-                  'absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-200',
+                  'absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-300 ease-out',
                   notifications ? 'left-[18px]' : 'left-0.5'
                 )}
               />
@@ -182,7 +184,7 @@ export default function Settings() {
           </div>
           <button
             onClick={() => setConfirmReset(true)}
-            className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/20 transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/20 transition-all duration-300 ease-out flex items-center justify-center gap-2"
           >
             <Trash2 className="w-4 h-4" />
             Reset All Data
@@ -205,7 +207,7 @@ export default function Settings() {
               key={t.mode}
               onClick={() => { setTheme(t.mode); markUnsaved(); }}
               className={clsx(
-                'flex-1 p-4 rounded-xl flex flex-col items-center gap-2 transition-all duration-200',
+                'flex-1 p-4 rounded-xl flex flex-col items-center gap-2 transition-all duration-300 ease-out',
                 theme === t.mode
                   ? 'bg-primary-500/10 border border-primary-500/30 text-primary-400'
                   : 'bg-white/[0.03] border border-white/[0.06] text-dark-400 hover:text-white'
@@ -258,7 +260,7 @@ export default function Settings() {
           onClick={() => { setSaved(true); toast('Changes discarded'); }}
           disabled={saved}
           className={clsx(
-            'px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2',
+            'px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ease-out flex items-center gap-2',
             saved
               ? 'text-dark-500 cursor-not-allowed'
               : 'glass glass-hover text-dark-300'
@@ -271,7 +273,7 @@ export default function Settings() {
           onClick={handleSave}
           disabled={saved}
           className={clsx(
-            'px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2',
+            'px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ease-out flex items-center gap-2',
             saved
               ? 'bg-primary-500/30 text-primary-300 cursor-not-allowed'
               : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/25'
@@ -312,7 +314,7 @@ export default function Settings() {
                 </button>
                 <button
                   onClick={handleReset}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-300 ease-out"
                 >
                   Reset All
                 </button>

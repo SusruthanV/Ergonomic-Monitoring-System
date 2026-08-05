@@ -122,7 +122,7 @@ export default function VerifyEmail() {
           <button
             onClick={handleVerify}
             disabled={loading || otp.join('').length !== 6}
-            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-primary-500 to-violet-600 hover:from-primary-600 hover:to-violet-700 text-white font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-primary-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-primary-500 to-violet-600 hover:from-primary-600 hover:to-violet-700 text-white font-semibold text-sm transition-all duration-300 ease-out flex items-center justify-center gap-2 shadow-lg shadow-primary-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -138,7 +138,7 @@ export default function VerifyEmail() {
             <button
               onClick={handleResend}
               disabled={resending}
-              className="inline-flex items-center gap-1.5 text-sm text-dark-400 hover:text-primary-400 transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 text-sm text-dark-400 hover:text-primary-400 transition-colors duration-300 ease-out disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${resending ? 'animate-spin' : ''}`} />
               {resending ? 'Sending...' : 'Resend code'}

@@ -30,7 +30,12 @@ interface AuthState {
   loadAuth: () => void;
 }
 
-interface AppState extends AuthState {
+interface ThemeState {
+  theme: 'dark' | 'light';
+  setTheme: (theme: 'dark' | 'light') => void;
+}
+
+interface AppState extends AuthState, ThemeState {
   isSessionActive: boolean;
   currentSessionId: number | null;
   latestPosture: PostureData | null;
@@ -77,6 +82,13 @@ export const useStore = create<AppState>((set) => ({
   loadAuth: () => {
     const token = localStorage.getItem('token');
     set({ token, isAuthLoading: false });
+  },
+
+  theme: (localStorage.getItem('theme') as 'dark' | 'light') || 'dark',
+
+  setTheme: (theme) => {
+    localStorage.setItem('theme', theme);
+    set({ theme });
   },
 
   isSessionActive: false,

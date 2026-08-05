@@ -126,14 +126,14 @@ export default function Home() {
           >
             <button
               onClick={() => navigate('/analysis')}
-              className="px-8 py-3 rounded-xl bg-gradient-to-r from-primary-500 to-violet-600 hover:from-primary-600 hover:to-violet-700 text-white font-semibold text-sm transition-all duration-200 flex items-center gap-2 shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40"
+              className="px-8 py-3 rounded-xl bg-gradient-to-r from-primary-500 to-violet-600 hover:from-primary-600 hover:to-violet-700 text-white font-semibold text-sm transition-all duration-300 ease-out flex items-center gap-2 shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40"
             >
               Start Analysis
               <ArrowRight className="w-4 h-4" />
             </button>
             <button
               onClick={() => navigate('/dashboard')}
-              className="px-8 py-3 rounded-xl glass glass-hover text-white font-semibold text-sm transition-all duration-200"
+              className="px-8 py-3 rounded-xl glass glass-hover text-white font-semibold text-sm transition-all duration-300 ease-out"
             >
               View Dashboard
             </button>
@@ -174,7 +174,7 @@ export default function Home() {
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
             <p className="text-sm text-dark-400 leading-relaxed">{feature.description}</p>
-            <div className="mt-4 flex items-center gap-1 text-xs font-medium text-primary-400 opacity-0 group-hover:opacity-100 transition-all duration-200">
+            <div className="mt-4 flex items-center gap-1 text-xs font-medium text-primary-400 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out">
               Learn more <ArrowRight className="w-3 h-3" />
             </div>
           </motion.div>

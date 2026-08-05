@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --dark-50: 248 250 252;
+  --dark-100: 241 245 249;
+  --dark-200: 226 232 240;
+  --dark-300: 203 213 225;
+  --dark-400: 148 163 184;
+  --dark-500: 100 116 139;
+  --dark-600: 71 85 105;
+  --dark-700: 51 65 85;
+  --dark-800: 30 41 59;
+  --dark-900: 15 23 42;
+  --dark-950: 2 6 23;
+
+  --glass-bg: 255 255 255 / 0.05;
+  --glass-border: 255 255 255 / 0.08;
+  --glass-hover-bg: 255 255 255 / 0.08;
+  --glass-hover-border: 255 255 255 / 0.12;
+
+  --grid-color: 255 255 255 / 0.02;
+  --shimmer-from: 255 255 255 / 0.03;
+  --shimmer-mid: 255 255 255 / 0.08;
+  --shimmer-to: 255 255 255 / 0.03;
+}
+
+
+
 @layer base {
   * {
     scrollbar-width: thin;
@@ -27,7 +53,11 @@
   }
 
   body {
-    @apply bg-dark-900 text-white font-sans antialiased;
+    background-color: rgb(var(--dark-900));
+    color: rgb(var(--dark-100));
+    font-family: Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
   }
 
@@ -38,11 +68,21 @@
 
 @layer components {
   .glass {
-    @apply bg-white/[0.05] backdrop-blur-xl border border-white/[0.08] shadow-xl;
+    background-color: rgb(var(--glass-bg));
+    border-color: rgb(var(--glass-border));
+    @apply backdrop-blur-xl shadow-xl;
   }
 
   .glass-hover {
-    @apply hover:bg-white/[0.08] hover:border-white/[0.12] transition-all duration-300;
+    @apply transition-all duration-500 ease-out;
+    transition-property: background-color, border-color, box-shadow, transform;
+  }
+
+  .glass-hover:hover {
+    background-color: rgb(var(--glass-hover-bg));
+    border-color: rgb(var(--glass-hover-border));
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.08), 0 0 80px rgba(99, 102, 241, 0.03);
+    transform: translateY(-1px);
   }
 
   .glass-card {
@@ -77,9 +117,9 @@
   .animate-shimmer {
     background: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.03) 25%,
-      rgba(255, 255, 255, 0.08) 50%,
-      rgba(255, 255, 255, 0.03) 75%
+      rgb(var(--shimmer-from)) 25%,
+      rgb(var(--shimmer-mid)) 50%,
+      rgb(var(--shimmer-to)) 75%
     );
     background-size: 200% 100%;
     animation: shimmer 2s linear infinite;
@@ -91,8 +131,8 @@
 
   .bg-grid {
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      linear-gradient(rgb(var(--grid-color)) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--grid-color)) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
@@ -114,3 +154,4 @@
     text-wrap: balance;
   }
 }
+
