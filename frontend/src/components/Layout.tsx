@@ -27,7 +27,7 @@ export default function Layout() {
         <div className="relative z-10 min-h-screen">
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="p-6 pb-4"
