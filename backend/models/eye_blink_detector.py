@@ -8,13 +8,15 @@ from config import settings
 LEFT_EYE_LANDMARKS = [33, 160, 158, 133, 153, 144]
 RIGHT_EYE_LANDMARKS = [362, 385, 387, 263, 373, 380]
 
+RATE_WINDOW_SECONDS = 60
+
 
 class EyeBlinkDetector:
     def __init__(self):
         self.total_blinks = 0
         self.last_blink_time = None
         self.consecutive_frames_below_threshold = 0
-        self.ear_values_history = deque(maxlen=10)
+        self.ear_values_history = deque(maxlen=3)
         self._blink_timestamps = deque(maxlen=300)
         self._in_blink = False
 
@@ -53,6 +55,11 @@ class EyeBlinkDetector:
 
         return left_ear, right_ear, avg_ear
 
+    def _cleanup_old_timestamps(self, current_time: float):
+        cutoff = current_time - RATE_WINDOW_SECONDS
+        while self._blink_timestamps and self._blink_timestamps[0] < cutoff:
+            self._blink_timestamps.popleft()
+
     def process_frame(self, ear: float, current_time: float) -> dict:
         self.ear_values_history.append(ear)
 
@@ -71,11 +78,17 @@ class EyeBlinkDetector:
                 self.last_blink_time = current_time
             self.consecutive_frames_below_threshold = 0
 
+        self._cleanup_old_timestamps(current_time)
+
         blink_rate_per_minute = 0.0
         if len(self._blink_timestamps) >= 2:
             time_span = self._blink_timestamps[-1] - self._blink_timestamps[0]
             if time_span > 0:
                 blink_rate_per_minute = (len(self._blink_timestamps) - 1) / (time_span / 60.0)
+        elif len(self._blink_timestamps) == 1:
+            elapsed = current_time - self._blink_timestamps[0]
+            if elapsed > 0:
+                blink_rate_per_minute = 1.0 / (elapsed / 60.0)
 
         duration_since_last_blink = 0.0
         if self.last_blink_time is not None:
@@ -88,4 +101,14 @@ class EyeBlinkDetector:
             "blink_rate_per_minute": round(blink_rate_per_minute, 2),
             "total_blinks": self.total_blinks,
             "duration_since_last_blink": round(duration_since_last_blink, 2),
+        }
+
+    def get_default_data(self) -> dict:
+        return {
+            "is_blink": False,
+            "ear_value": 0.0,
+            "blink_count": self.total_blinks,
+            "blink_rate_per_minute": 0.0,
+            "total_blinks": self.total_blinks,
+            "duration_since_last_blink": 0.0,
         }

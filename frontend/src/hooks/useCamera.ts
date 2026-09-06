@@ -2,7 +2,7 @@ import { useRef, useState, useCallback } from 'react';
 
 const FRAME_WIDTH = 640;
 const FRAME_HEIGHT = 480;
-const JPEG_QUALITY = 0.7;
+const JPEG_QUALITY = 0.6;
 
 export function useCamera() {
   const videoRef = useRef<HTMLVideoElement | null>(null);

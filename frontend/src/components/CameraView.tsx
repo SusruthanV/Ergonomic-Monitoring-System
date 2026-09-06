@@ -1,4 +1,3 @@
-import { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, CameraOff, Play, Square, Activity } from 'lucide-react';
 import clsx from 'clsx';
@@ -8,7 +7,6 @@ interface CameraViewProps {
   canvasRef: React.RefObject<HTMLCanvasElement>;
   isCameraActive: boolean;
   isSessionActive: boolean;
-  overlayFrame?: string;
   error: string | null;
   onStartCamera: () => void;
   onStopCamera: () => void;
@@ -21,20 +19,12 @@ export default function CameraView({
   canvasRef,
   isCameraActive,
   isSessionActive,
-  overlayFrame,
   error,
   onStartCamera,
   onStopCamera,
   onStartSession,
   onStopSession,
 }: CameraViewProps) {
-  const overlayImgRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    if (overlayFrame && overlayImgRef.current) {
-      overlayImgRef.current.src = overlayFrame;
-    }
-  }, [overlayFrame]);
 
   return (
     <motion.div
@@ -102,14 +92,6 @@ export default function CameraView({
           </div>
         )}
         <canvas ref={canvasRef} className="hidden" />
-        {overlayFrame && (
-          <img
-            ref={overlayImgRef}
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-            style={{ transform: 'scaleX(-1)' }}
-            alt="Pose overlay"
-          />
-        )}
         {isSessionActive && (
           <div className="absolute top-3 right-3 flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse-soft shadow-lg shadow-red-500/50" />

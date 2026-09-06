@@ -71,7 +71,7 @@ export default function OverallScoreCard({ scores }: OverallScoreCardProps) {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={clsx('glass-card p-4', `glow-${getGradeGlow(grade)}`)}
+      className={clsx('glass-card p-4 shadow-lg', getGradeGlow(grade))}
     >
       <div className="flex items-center gap-4">
         <div className="relative w-20 h-20 flex-shrink-0">
@@ -81,7 +81,7 @@ export default function OverallScoreCard({ scores }: OverallScoreCardProps) {
               cy="80"
               r="70"
               fill="none"
-              stroke="rgb(var(--dark-500) / 0.15)"
+              stroke="rgba(var(--dark-500), 0.15)"
               strokeWidth="8"
             />
             <motion.circle

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Activity, Timer, Pause, Play, Square, AlertTriangle, WifiOff, RefreshCw } from 'lucide-react';
+import { Activity, Timer, Pause, Play, Square, WifiOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useStore } from '../store/useStore';
 import { useWebSocket } from '../hooks/useWebSocket';
@@ -10,7 +10,6 @@ import OverallScoreCard from '../components/OverallScoreCard';
 import PostureScoreCard from '../components/PostureScoreCard';
 import EyeBlinkScoreCard from '../components/EyeBlinkScoreCard';
 import DiseaseRiskCard from '../components/DiseaseRiskCard';
-import PostureVisualizer from '../components/PostureVisualizer';
 import clsx from 'clsx';
 
 function formatTime(seconds: number): string {
@@ -118,7 +117,6 @@ export default function Analysis() {
     latestEyeBlink,
     latestDiseaseRisk,
     latestScores,
-    postureHistory,
     sessionElapsed,
     setSessionActive,
     updateAnalysis,
@@ -142,18 +140,44 @@ export default function Analysis() {
   const sessionTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const demoIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [isPaused, setIsPaused] = useState(false);
+  const isPausedRef = useRef(false);
+  const lastScoreUpdateRef = useRef(0);
+  const pendingResultRef = useRef<any>(null);
 
   useEffect(() => {
     if (lastResult && isSessionActive) {
-      updateAnalysis(lastResult);
-      addToHistory(lastResult);
+      const now = Date.now();
+      if (now - lastScoreUpdateRef.current >= 3000) {
+        lastScoreUpdateRef.current = now;
+        updateAnalysis(lastResult);
+        addToHistory(lastResult);
+      } else {
+        pendingResultRef.current = lastResult;
+      }
     }
-  }, [lastResult]);
+  }, [lastResult, isSessionActive, updateAnalysis, addToHistory]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (pendingResultRef.current) {
+        const result = pendingResultRef.current;
+        pendingResultRef.current = null;
+        lastScoreUpdateRef.current = Date.now();
+        updateAnalysis(result);
+        addToHistory(result);
+      }
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+  }, [isPaused]);
 
   useEffect(() => {
     if (isSessionActive && !isConnected && !demoIntervalRef.current) {
       demoIntervalRef.current = setInterval(() => {
-        if (isPaused) return;
+        if (isPausedRef.current) return;
         const demo = generateDemoResult();
         updateAnalysis(demo);
         addToHistory(demo);
@@ -168,11 +192,12 @@ export default function Analysis() {
       clearInterval(demoIntervalRef.current);
       demoIntervalRef.current = null;
     }
-  }, [isSessionActive, isConnected, isPaused]);
+  }, [isSessionActive, isConnected]);
 
   const startSession = useCallback(async () => {
     setSessionActive(true);
     setIsPaused(false);
+    isPausedRef.current = false;
     resetSessionData();
 
     sessionTimerRef.current = setInterval(() => {
@@ -183,11 +208,11 @@ export default function Analysis() {
     }, 1000);
 
     captureFrame((frame) => {
-      if (!isPaused && isConnected) sendFrame(frame);
-    }, 2000);
+      if (!isPausedRef.current && isConnected) sendFrame(frame);
+    }, 400);
 
     toast.success('Session started');
-  }, [captureFrame, sendFrame, isPaused, isConnected]);
+  }, [captureFrame, sendFrame, isConnected]);
 
   const stopSession = useCallback(() => {
     if (sessionTimerRef.current) {
@@ -206,7 +231,7 @@ export default function Analysis() {
       startCamera().then(() => {
         captureFrame((frame) => {
           if (isConnected) sendFrame(frame);
-        }, 2000);
+        }, 400);
       });
       toast('Analysis resumed');
     } else {
@@ -224,14 +249,6 @@ export default function Analysis() {
       stopCamera();
     };
   }, [stopCamera]);
-
-  const avgAngles = postureHistory.length > 0
-    ? {
-        neck: postureHistory.reduce((s, p) => s + p.neck_angle, 0) / postureHistory.length,
-        shoulder: postureHistory.reduce((s, p) => s + p.shoulder_angle, 0) / postureHistory.length,
-        spine: postureHistory.reduce((s, p) => s + p.spine_angle, 0) / postureHistory.length,
-      }
-    : { neck: 0, shoulder: 0, spine: 0 };
 
   return (
     <div className="min-h-full">
@@ -275,7 +292,6 @@ export default function Analysis() {
             canvasRef={canvasRef}
             isCameraActive={isCameraActive}
             isSessionActive={isSessionActive}
-            overlayFrame={lastResult?.overlay_frame}
             error={cameraError}
             onStartCamera={startCamera}
             onStopCamera={stopCamera}
@@ -306,8 +322,6 @@ export default function Analysis() {
               </button>
             </div>
           )}
-
-          {latestScores && <PostureVisualizer angles={avgAngles} />}
         </div>
 
         <div className="lg:col-span-2 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">

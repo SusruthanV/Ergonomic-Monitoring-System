@@ -183,7 +183,9 @@ async def websocket_endpoint(websocket: WebSocket):
             if ear is not None:
                 current_time = time.time()
                 blink_data = state.eye_blink_detector.process_frame(ear, current_time)
-                response["eye_blink"] = blink_data
+            else:
+                blink_data = state.eye_blink_detector.get_default_data()
+            response["eye_blink"] = blink_data
 
             if state.posture_history:
                 risk_scores, overall_risk = state.disease_predictor.predict_risk(state.posture_history[-30:])
@@ -201,15 +203,6 @@ async def websocket_endpoint(websocket: WebSocket):
 
             scores = state.scorer.compute_overall(posture_score_val, eye_blink_score_val, disease_risk_score_val)
             response["scores"] = scores
-
-            send_overlay = (state.frame_count % (settings.PROCESS_EVERY_N_FRAMES * 20) == 0)
-            if send_overlay and pose_results and pose_results.pose_landmarks and posture_data:
-                overlay_frame = frame.copy()
-                overlay_frame = state.posture_analyzer.draw_pose_landmarks(
-                    overlay_frame, pose_results.pose_landmarks.landmark, posture_data
-                )
-                overlay_base64 = encode_frame(overlay_frame)
-                response["overlay_frame"] = f"data:image/jpeg;base64,{overlay_base64}"
 
             try:
                 await websocket.send_json(response)

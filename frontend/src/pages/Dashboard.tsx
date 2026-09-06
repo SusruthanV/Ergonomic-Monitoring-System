@@ -27,6 +27,9 @@ export default function Dashboard() {
     sessions,
     dashboardSummary,
     latestScores,
+    latestPosture,
+    latestEyeBlink,
+    latestDiseaseRisk,
     setTrends,
     setSessions,
     setDashboardSummary,
@@ -223,15 +226,15 @@ export default function Dashboard() {
         {latestScores ? (
           <div className="space-y-4">
             <PostureScoreCard
-              posture={{ neck_angle: 0, shoulder_angle: 0, spine_angle: 0, is_good_posture: true, feedback: 'Awaiting session data' }}
+              posture={latestPosture}
               score={latestScores?.posture ?? 0}
             />
             <EyeBlinkScoreCard
-              blinkData={{ ear_value: 0.3, is_blink: false, blink_count: 0, blink_rate: 15, total_blinks: 0 }}
+              blinkData={latestEyeBlink}
               score={latestScores?.eye_blink ?? 0}
             />
             <DiseaseRiskCard
-              diseaseRisk={{ cervical_spondylosis: 0, carpal_tunnel: 0, text_neck: 0, scoliosis_risk: 0, lower_back_pain: 0, overall_risk_score: 0, recommendations: [] }}
+              diseaseRisk={latestDiseaseRisk}
               score={latestScores?.disease_risk ?? 0}
             />
           </div>
