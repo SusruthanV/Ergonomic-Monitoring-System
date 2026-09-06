@@ -66,12 +66,12 @@ export default function Register() {
         transition={{ duration: 0.5 }}
         className="relative z-10 w-full max-w-md"
       >
-        <div className="glass rounded-2xl p-8 border border-white/[0.06]">
+        <div className="glass rounded-2xl p-8 border border-dark-800">
           <div className="text-center mb-8">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500 to-violet-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-500/25">
               <Brain className="w-7 h-7 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Create account</h1>
+            <h1 className="text-2xl font-bold text-dark-50">Create account</h1>
             <p className="text-sm text-dark-400 mt-1">Start your ergonomic journey</p>
           </div>
 
@@ -85,7 +85,7 @@ export default function Register() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="John Doe"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-dark-800 border border-white/[0.08] text-white text-sm placeholder-dark-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-dark-800 border border-dark-800 text-dark-50 text-sm placeholder-dark-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
                 />
               </div>
             </div>
@@ -99,7 +99,7 @@ export default function Register() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-dark-800 border border-white/[0.08] text-white text-sm placeholder-dark-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-dark-800 border border-dark-800 text-dark-50 text-sm placeholder-dark-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
                 />
               </div>
             </div>
@@ -113,7 +113,7 @@ export default function Register() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+1 234 567 8900"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-dark-800 border border-white/[0.08] text-white text-sm placeholder-dark-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-dark-800 border border-dark-800 text-dark-50 text-sm placeholder-dark-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
                 />
               </div>
             </div>
@@ -127,7 +127,7 @@ export default function Register() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="At least 6 characters"
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-dark-800 border border-white/[0.08] text-white text-sm placeholder-dark-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+                  className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-dark-800 border border-dark-800 text-dark-50 text-sm placeholder-dark-500 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
                 />
                 <button
                   type="button"

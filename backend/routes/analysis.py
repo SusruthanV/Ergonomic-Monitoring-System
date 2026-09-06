@@ -184,10 +184,6 @@ async def websocket_endpoint(websocket: WebSocket):
                 current_time = time.time()
                 blink_data = state.eye_blink_detector.process_frame(ear, current_time)
                 response["eye_blink"] = blink_data
-            elif ear is None and posture_data is not None:
-                current_time = time.time()
-                blink_data = state.eye_blink_detector.process_frame(0.3, current_time)
-                response["eye_blink"] = blink_data
 
             if state.posture_history:
                 risk_scores, overall_risk = state.disease_predictor.predict_risk(state.posture_history[-30:])
@@ -199,7 +195,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 }
 
             posture_score_val = posture_data.get("overall_posture_score", 0) if posture_data else 0
-            eye_blink_score_val = state.scorer.score_eye_blink(blink_data) if blink_data else 50.0
+            eye_blink_score_val = state.scorer.score_eye_blink(blink_data) if blink_data else 70.0
             disease_risk_val = response["disease_risk"]["overall_risk_score"] if response.get("disease_risk") else 0
             disease_risk_score_val = state.scorer.score_disease_risk(disease_risk_val)
 

@@ -64,7 +64,7 @@ export default function Settings() {
             <select
               value={cameraDevice}
               onChange={(e) => { setCameraDevice(e.target.value); markUnsaved(); }}
-              className="w-full px-3 py-2 rounded-xl bg-white/[0.05] border border-white/[0.08] text-sm text-white focus:outline-none focus:border-primary-500/50 transition-all duration-300 ease-out appearance-none"
+              className="w-full px-3 py-2 rounded-xl bg-dark-800/40 border border-dark-800 text-sm text-dark-50 focus:outline-none focus:border-primary-500/50 transition-all duration-300 ease-out appearance-none"
             >
               <option value="default">Default Camera</option>
               <option value="external">External Camera</option>
@@ -136,9 +136,9 @@ export default function Settings() {
       description: 'Control alert preferences',
       content: (
         <div className="space-y-3">
-          <label className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] cursor-pointer">
+          <label className="flex items-center justify-between p-3 rounded-xl bg-dark-800/30 cursor-pointer">
             <div>
-              <span className="text-sm text-white">Push Notifications</span>
+              <span className="text-sm text-dark-50">Push Notifications</span>
               <p className="text-xs text-dark-400">Receive alerts for poor posture</p>
             </div>
             <button
@@ -210,7 +210,7 @@ export default function Settings() {
                 'flex-1 p-4 rounded-xl flex flex-col items-center gap-2 transition-all duration-300 ease-out',
                 theme === t.mode
                   ? 'bg-primary-500/10 border border-primary-500/30 text-primary-400'
-                  : 'bg-white/[0.03] border border-white/[0.06] text-dark-400 hover:text-white'
+                  : 'bg-dark-800/30 border border-dark-800 text-dark-400 hover:text-dark-50'
               )}
             >
               <t.icon className="w-6 h-6" />
@@ -225,7 +225,7 @@ export default function Settings() {
   return (
     <div className="min-h-full max-w-4xl mx-auto">
       <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="mb-6">
-        <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+        <h1 className="text-2xl font-bold text-dark-50 flex items-center gap-3">
           <SettingsIcon className="w-6 h-6 text-primary-400" />
           Settings
         </h1>
@@ -246,7 +246,7 @@ export default function Settings() {
                 <section.icon className="w-5 h-5 text-primary-400" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-white">{section.title}</h3>
+                <h3 className="text-sm font-semibold text-dark-50">{section.title}</h3>
                 <p className="text-xs text-dark-400">{section.description}</p>
               </div>
             </div>
@@ -300,7 +300,7 @@ export default function Settings() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <Trash2 className="w-6 h-6 text-red-400" />
-                <h3 className="text-lg font-semibold text-white">Reset All Data?</h3>
+                <h3 className="text-lg font-semibold text-dark-50">Reset All Data?</h3>
               </div>
               <p className="text-sm text-dark-300 mb-6">
                 This will permanently delete all your analysis sessions, trends, and stored data. This action cannot be undone.

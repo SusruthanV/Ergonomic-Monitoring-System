@@ -22,7 +22,7 @@ class ErgonomicScorer:
         blink_rate = blink_data.get("blink_rate_per_minute", 0)
 
         if blink_rate == 0:
-            return 50.0
+            return 70.0
 
         ideal_min = 15
         ideal_max = 20

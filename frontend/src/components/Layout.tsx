@@ -18,7 +18,7 @@ export default function Layout() {
 
   return (
     <div className="flex h-screen bg-dark-900 overflow-hidden">
-      <aside className="w-64 flex-shrink-0 glass border-r border-white/[0.06] z-30">
+      <aside className="w-64 flex-shrink-0 glass border-r border-dark-800 z-30">
         <Navbar />
       </aside>
 
@@ -37,7 +37,7 @@ export default function Layout() {
         </div>
 
         <footer>
-          <div className="glass border-t border-white/[0.06] px-6 py-2.5">
+          <div className="glass border-t border-dark-800 px-6 py-2.5">
             <div className="flex items-center justify-between text-xs text-dark-400">
               <div className="flex items-center gap-2 md:gap-4 whitespace-nowrap">
                 <div className="flex items-center gap-1.5">

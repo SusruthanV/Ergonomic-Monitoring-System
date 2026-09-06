@@ -40,7 +40,7 @@ export default function Navbar() {
         </div>
         <span className="text-xl font-bold">
           <span className="gradient-text">Ergo</span>
-          <span className="text-white/70">Guard</span>
+          <span className="text-dark-50/70">Guard</span>
         </span>
       </div>
 
@@ -54,8 +54,8 @@ export default function Navbar() {
               clsx(
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ease-out group relative',
                 isActive
-                  ? 'text-white bg-primary-500/10'
-                  : 'text-dark-400 hover:text-white hover:bg-white/5'
+                  ? 'text-dark-50 bg-primary-500/10'
+                  : 'text-dark-400 hover:text-dark-50 hover:bg-dark-800/40'
               )
             }
           >
@@ -87,11 +87,11 @@ export default function Navbar() {
       {user && (
         <div className="px-3 py-3 mb-2 glass rounded-xl">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500/30 to-violet-600/30 flex items-center justify-center border border-white/[0.06]">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500/30 to-violet-600/30 flex items-center justify-center border border-dark-800">
               <User className="w-4 h-4 text-primary-400" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white truncate">{user.name}</p>
+              <p className="text-sm font-medium text-dark-50 truncate">{user.name}</p>
               <p className="text-xs text-dark-400 truncate">{user.email}</p>
             </div>
           </div>

@@ -19,10 +19,60 @@ function formatTime(seconds: number): string {
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 }
 
+function clampScore(v: number): number {
+  return Math.max(0, Math.min(100, Math.round(v)));
+}
+
+function computeDemoPostureScore(neck: number, shoulder: number, spine: number): number {
+  const neckScore = Math.max(0, 100 - (neck / 30) * 100);
+  const shoulderScore = Math.max(0, 100 - (shoulder / 25) * 100);
+  const spineScore = Math.max(0, 100 - (spine / 15) * 100);
+  return clampScore(neckScore * 0.4 + shoulderScore * 0.3 + spineScore * 0.3);
+}
+
+function computeDemoBlinkScore(blinkRate: number): number {
+  if (blinkRate === 0) return 50;
+  if (blinkRate >= 15 && blinkRate <= 20) return 100;
+  if (blinkRate < 15) return clampScore(100 - ((15 - blinkRate) / 15) * 100);
+  return clampScore(100 - ((blinkRate - 20) / 20) * 100);
+}
+
+function computeDemoDiseaseRiskScore(risk: number): number {
+  return clampScore(100 - risk);
+}
+
+function computeDemoGrade(score: number): string {
+  if (score >= 97) return 'A+';
+  if (score >= 93) return 'A';
+  if (score >= 90) return 'A-';
+  if (score >= 87) return 'B+';
+  if (score >= 83) return 'B';
+  if (score >= 80) return 'B-';
+  if (score >= 77) return 'C+';
+  if (score >= 73) return 'C';
+  if (score >= 70) return 'C-';
+  if (score >= 60) return 'D';
+  return 'F';
+}
+
 function generateDemoResult() {
   const neck = Math.random() * 35;
   const shoulder = Math.random() * 30;
   const spine = Math.random() * 25;
+  const blinkRate = 10 + Math.random() * 15;
+  const riskScore = Math.random() * 40;
+
+  const postureScore = computeDemoPostureScore(neck, shoulder, spine);
+  const blinkScore = computeDemoBlinkScore(blinkRate);
+  const riskScoreVal = computeDemoDiseaseRiskScore(riskScore);
+  const overallScore = clampScore(postureScore * 0.4 + blinkScore * 0.25 + riskScoreVal * 0.35);
+
+  const recommendations: string[] = [];
+  if (postureScore < 70) recommendations.push('Improve your posture: keep your back straight and shoulders level.');
+  if (blinkScore < 70) recommendations.push('Your blink rate needs attention. Take conscious breaks to blink.');
+  if (riskScoreVal < 70) recommendations.push('Your disease risk scores are elevated. Review recommendations.');
+  if (recommendations.length === 0) recommendations.push('Excellent ergonomic health! Keep up your good habits.');
+
   return {
     type: 'analysis',
     timestamp: Date.now().toString(),
@@ -37,7 +87,7 @@ function generateDemoResult() {
       ear_value: 0.25 + Math.random() * 0.1,
       is_blink: Math.random() > 0.8,
       blink_count: Math.floor(Math.random() * 50),
-      blink_rate_per_minute: 12 + Math.random() * 12,
+      blink_rate_per_minute: blinkRate,
       total_blinks: Math.floor(Math.random() * 100),
     },
     disease_risk: {
@@ -46,17 +96,17 @@ function generateDemoResult() {
       text_neck: Math.random() * 35,
       scoliosis_risk: Math.random() * 20,
       lower_back_pain: Math.random() * 25,
-      overall_risk_score: Math.random() * 30,
+      overall_risk_score: riskScore,
       recommendations: ['Take regular breaks', 'Maintain good posture'],
     },
     scores: {
-      overall_score: 60 + Math.random() * 35,
-      posture_score: 55 + Math.random() * 40,
-      eye_blink_score: 60 + Math.random() * 35,
-      disease_risk_score: 70 + Math.random() * 25,
-      grade: 'B+',
+      overall_score: overallScore,
+      posture_score: postureScore,
+      eye_blink_score: blinkScore,
+      disease_risk_score: riskScoreVal,
+      grade: computeDemoGrade(overallScore),
       breakdown: { posture_weight: 0.4, eye_blink_weight: 0.25, disease_risk_weight: 0.35 },
-      recommendations: ['Keep up the good habits'],
+      recommendations,
     },
   };
 }
@@ -145,22 +195,35 @@ export default function Analysis() {
       sessionTimerRef.current = null;
     }
     stopCapture();
+    stopCamera();
     setIsPaused(false);
     setSessionActive(false);
     toast.success('Session ended');
-  }, [stopCapture]);
+  }, [stopCapture, stopCamera]);
 
   const togglePause = useCallback(() => {
+    if (isPaused) {
+      startCamera().then(() => {
+        captureFrame((frame) => {
+          if (isConnected) sendFrame(frame);
+        }, 2000);
+      });
+      toast('Analysis resumed');
+    } else {
+      stopCapture();
+      stopCamera();
+      toast('Analysis paused');
+    }
     setIsPaused((p) => !p);
-    toast(isPaused ? 'Analysis resumed' : 'Analysis paused');
-  }, [isPaused]);
+  }, [isPaused, isConnected, startCamera, stopCamera, captureFrame, sendFrame, stopCapture]);
 
   useEffect(() => {
     return () => {
       if (sessionTimerRef.current) clearInterval(sessionTimerRef.current);
       if (demoIntervalRef.current) clearInterval(demoIntervalRef.current);
+      stopCamera();
     };
-  }, []);
+  }, [stopCamera]);
 
   const avgAngles = postureHistory.length > 0
     ? {
@@ -174,7 +237,7 @@ export default function Analysis() {
     <div className="min-h-full">
       <div className="flex items-center justify-between mb-6">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-dark-50 flex items-center gap-3">
             <Activity className="w-6 h-6 text-primary-400" />
             Real-time Analysis
           </h1>
@@ -247,12 +310,10 @@ export default function Analysis() {
           {latestScores && <PostureVisualizer angles={avgAngles} />}
         </div>
 
-        <div className="lg:col-span-2 space-y-4 max-h-[calc(100vh-10rem)] overflow-y-auto pr-2">
+        <div className="lg:col-span-2 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
           {isSessionActive || latestScores ? (
             <>
-              <div className="sticky top-0 z-10 pb-2" style={{ background: '#0f172a' }}>
-                <OverallScoreCard scores={latestScores} />
-              </div>
+              <OverallScoreCard scores={latestScores} />
               <PostureScoreCard posture={latestPosture} score={latestScores?.posture ?? 0} />
               <EyeBlinkScoreCard blinkData={latestEyeBlink} score={latestScores?.eye_blink ?? 0} />
               <DiseaseRiskCard diseaseRisk={latestDiseaseRisk} score={latestScores?.disease_risk ?? 0} />
@@ -266,7 +327,7 @@ export default function Analysis() {
               <div className="w-20 h-20 rounded-2xl bg-dark-800/50 flex items-center justify-center mb-6">
                 <Activity className="w-10 h-10 text-dark-500" />
               </div>
-              <h2 className="text-xl font-semibold text-white mb-2">Ready to analyze</h2>
+              <h2 className="text-xl font-semibold text-dark-50 mb-2">Ready to analyze</h2>
               <p className="text-sm text-dark-400 mb-6 max-w-md">
                 Start your camera and begin a session to see real-time posture analysis, blink rate tracking, and disease risk assessment.
               </p>

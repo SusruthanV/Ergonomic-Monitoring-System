@@ -10,6 +10,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <title>ErgoGuard - Ergonomic Monitoring System</title>
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('theme');
+          if (theme !== 'light' && theme !== 'dark') theme = 'dark';
+          document.documentElement.setAttribute('data-theme', theme);
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f1f5f9' : '#0f172a');
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background-color: #0f172a;
+        color: #f1f5f9;
+      }
+      html[data-theme='light'],
+      html[data-theme='light'] body {
+        background-color: #f1f5f9;
+        color: #020617;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

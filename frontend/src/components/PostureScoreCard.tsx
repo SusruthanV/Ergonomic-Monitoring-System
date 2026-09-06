@@ -65,7 +65,7 @@ export default function PostureScoreCard({ posture, score }: PostureScoreCardPro
             <Target className="w-5 h-5 text-primary-400" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-white">Posture Score</h3>
+            <h3 className="text-sm font-semibold text-dark-50">Posture Score</h3>
             <p className="text-xs text-dark-400">Real-time posture analysis</p>
           </div>
         </div>
@@ -74,7 +74,7 @@ export default function PostureScoreCard({ posture, score }: PostureScoreCardPro
             key={score}
             initial={{ scale: 1.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-2xl font-bold text-white"
+            className="text-2xl font-bold text-dark-50"
           >
             {score.toFixed(0)}
           </motion.div>
@@ -82,19 +82,22 @@ export default function PostureScoreCard({ posture, score }: PostureScoreCardPro
         </div>
       </div>
 
-      <div className="space-y-3 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
         {angles.map((angle) => {
           const isGood = posture.is_good_posture;
           const pct = Math.min(angle.value / 45, 1) * 100;
           return (
-            <div key={angle.key}>
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-dark-400">{angle.label}</span>
-                <span className={clsx('text-xs font-medium', angleTextColor(angle.value, isGood))}>
-                  {angle.value.toFixed(1)}° - {angleLabel(angle.value, isGood)}
+            <div key={angle.key} className="p-3 rounded-xl bg-dark-800/50 flex flex-col justify-between min-h-[90px]">
+              <div>
+                <span className="text-xs text-dark-400 block mb-1">{angle.label}</span>
+                <span className={clsx('text-lg font-bold', angleTextColor(angle.value, isGood))}>
+                  {angle.value.toFixed(1)}°
+                </span>
+                <span className={clsx('text-[10px] font-medium ml-1.5', angleTextColor(angle.value, isGood))}>
+                  {angleLabel(angle.value, isGood)}
                 </span>
               </div>
-              <div className="h-2 bg-dark-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-dark-900 rounded-full overflow-hidden mt-2">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${pct}%` }}

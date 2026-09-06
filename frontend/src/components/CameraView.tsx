@@ -45,14 +45,14 @@ export default function CameraView({
         isSessionActive && 'glow-primary'
       )}
     >
-      <div className="p-4 border-b border-white/[0.06]">
+      <div className="p-4 border-b border-dark-800">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-primary-500/10 flex items-center justify-center">
               <Camera className="w-4 h-4 text-primary-400" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-white">Camera Feed</h3>
+              <h3 className="text-sm font-semibold text-dark-50">Camera Feed</h3>
               <div className="flex items-center gap-2 mt-0.5">
                 <div
                   className={clsx(
@@ -151,7 +151,7 @@ export default function CameraView({
               )}
               <button
                 onClick={onStopCamera}
-                className="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-dark-300 text-sm font-medium transition-all duration-300 ease-out border border-white/[0.06]"
+                className="px-4 py-2.5 rounded-xl bg-dark-800/40 hover:bg-dark-800/60 text-dark-300 text-sm font-medium transition-all duration-300 ease-out border border-dark-800"
               >
                 <CameraOff className="w-4 h-4" />
               </button>

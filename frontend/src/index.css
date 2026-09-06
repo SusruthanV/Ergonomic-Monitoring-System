@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: dark;
+
   --dark-50: 248 250 252;
   --dark-100: 241 245 249;
   --dark-200: 226 232 240;
@@ -24,6 +26,40 @@
   --shimmer-from: 255 255 255 / 0.03;
   --shimmer-mid: 255 255 255 / 0.08;
   --shimmer-to: 255 255 255 / 0.03;
+}
+
+html[data-theme='light'] {
+  color-scheme: light;
+
+  --dark-50: 2 6 23;
+  --dark-100: 15 23 42;
+  --dark-200: 30 41 59;
+  --dark-300: 51 65 85;
+  --dark-400: 71 85 105;
+  --dark-500: 100 116 139;
+  --dark-600: 148 163 184;
+  --dark-700: 203 213 225;
+  --dark-800: 226 232 240;
+  --dark-900: 241 245 249;
+  --dark-950: 255 255 255;
+
+  --glass-bg: 255 255 255 / 0.78;
+  --glass-border: 15 23 42 / 0.1;
+  --glass-hover-bg: 255 255 255 / 0.9;
+  --glass-hover-border: 15 23 42 / 0.16;
+
+  --grid-color: 15 23 42 / 0.05;
+  --shimmer-from: 100 116 139 / 0.1;
+  --shimmer-mid: 100 116 139 / 0.2;
+  --shimmer-to: 100 116 139 / 0.1;
+}
+
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+  animation-duration: 0s !important;
 }
 
 
@@ -74,15 +110,14 @@
   }
 
   .glass-hover {
-    @apply transition-all duration-500 ease-out;
-    transition-property: background-color, border-color, box-shadow, transform;
+    @apply transition-all duration-300 ease-out;
+    transition-property: background-color, border-color, box-shadow;
   }
 
   .glass-hover:hover {
     background-color: rgb(var(--glass-hover-bg));
     border-color: rgb(var(--glass-hover-border));
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.08), 0 0 80px rgba(99, 102, 241, 0.03);
-    transform: translateY(-1px);
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.08), 0 0 60px rgba(99, 102, 241, 0.03);
   }
 
   .glass-card {

@@ -30,7 +30,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return (
     <div className="glass rounded-xl px-3 py-2 shadow-xl">
       <p className="text-xs text-dark-400 mb-1">{label}</p>
-      <p className="text-sm font-semibold text-white">
+      <p className="text-sm font-semibold text-dark-50">
         {parseFloat(payload[0].value).toFixed(1)}
       </p>
     </div>
@@ -58,7 +58,7 @@ export default function AnalyticsChart({ data, dataKey, color, title }: Analytic
       className="glass-card"
     >
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-white">{title}</h3>
+        <h3 className="text-sm font-semibold text-dark-50">{title}</h3>
         <div className="flex gap-1">
           {timeRanges.map((r) => (
             <button
@@ -68,7 +68,7 @@ export default function AnalyticsChart({ data, dataKey, color, title }: Analytic
                 'px-2.5 py-1 rounded-lg text-xs font-medium transition-all duration-300 ease-out',
                 range === r.days
                   ? 'bg-primary-500/20 text-primary-400'
-                  : 'text-dark-400 hover:text-white hover:bg-white/5'
+                  : 'text-dark-400 hover:text-dark-50 hover:bg-dark-800/40'
               )}
             >
               {r.label}
@@ -86,7 +86,7 @@ export default function AnalyticsChart({ data, dataKey, color, title }: Analytic
                 <stop offset="100%" stopColor={color} stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(100,116,139,0.15)" />
             <XAxis
               dataKey="date"
               tickFormatter={formatDate}

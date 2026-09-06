@@ -103,7 +103,7 @@ export default function Dashboard() {
         <div className="w-20 h-20 rounded-2xl bg-dark-800/50 flex items-center justify-center mb-6">
           <Activity className="w-10 h-10 text-dark-500" />
         </div>
-        <h2 className="text-xl font-semibold text-white mb-2">No data yet</h2>
+        <h2 className="text-xl font-semibold text-dark-50 mb-2">No data yet</h2>
         <p className="text-sm text-dark-400 mb-6 max-w-md">
           Start an analysis session to see your ergonomic health dashboard with scores, trends, and activity history.
         </p>
@@ -166,7 +166,7 @@ export default function Dashboard() {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
         >
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-2xl font-bold text-dark-50">
             {getGreeting()}, User
           </h1>
           <p className="text-sm text-dark-400 mt-1">
@@ -205,7 +205,7 @@ export default function Dashboard() {
                 <stat.icon className="w-4 h-4 text-white" />
               </div>
             </div>
-            <div className="text-2xl font-bold text-white">{stat.value}</div>
+            <div className="text-2xl font-bold text-dark-50">{stat.value}</div>
           </motion.div>
         ))}
       </div>
@@ -260,7 +260,7 @@ export default function Dashboard() {
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-dark-50 mb-4 flex items-center gap-2">
           <Calendar className="w-5 h-5 text-primary-400" />
           Recent Activity
         </h2>

@@ -101,7 +101,7 @@ export default function ActivityTimeline({ sessions, onSessionClick, onDeleteSes
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-white">
+                  <span className="text-sm font-semibold text-dark-50">
                     {formatDate(session.created_at)}
                   </span>
                   <span className="text-[10px] text-dark-500">
@@ -117,7 +117,7 @@ export default function ActivityTimeline({ sessions, onSessionClick, onDeleteSes
                   </div>
                   <div className="flex items-center gap-1">
                     <div className={clsx('w-1.5 h-1.5 rounded-full', scoreColor(session.overall_score))} />
-                    <span className="text-xs font-medium text-white">
+                    <span className="text-xs font-medium text-dark-50">
                       Score: {session.overall_score.toFixed(0)}
                     </span>
                   </div>

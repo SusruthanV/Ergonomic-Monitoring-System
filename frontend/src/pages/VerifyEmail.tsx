@@ -91,12 +91,12 @@ export default function VerifyEmail() {
         transition={{ duration: 0.5 }}
         className="relative z-10 w-full max-w-md"
       >
-        <div className="glass rounded-2xl p-8 border border-white/[0.06]">
+        <div className="glass rounded-2xl p-8 border border-dark-800">
           <div className="text-center mb-8">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/25">
               <Mail className="w-7 h-7 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white">Verify your email</h1>
+            <h1 className="text-2xl font-bold text-dark-50">Verify your email</h1>
             <p className="text-sm text-dark-400 mt-1">
               We sent a 6-digit code to{' '}
               <span className="text-primary-400 font-medium">{email}</span>
@@ -114,7 +114,7 @@ export default function VerifyEmail() {
                 value={digit}
                 onChange={(e) => handleOtpChange(i, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(i, e)}
-                className="w-12 h-14 text-center text-xl font-bold rounded-xl bg-dark-800 border border-white/[0.08] text-white focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+                className="w-12 h-14 text-center text-xl font-bold rounded-xl bg-dark-800 border border-dark-800 text-dark-50 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
               />
             ))}
           </div>

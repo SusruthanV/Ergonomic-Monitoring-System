@@ -18,7 +18,7 @@ export default function EyeBlinkScoreCard({ blinkData, score }: EyeBlinkScoreCar
     );
   }
 
-  const idealRateMin = 12;
+  const idealRateMin = 15;
   const idealRateMax = 20;
   const isLowBlinkRate = blinkData.blink_rate < idealRateMin;
   const isHighBlinkRate = blinkData.blink_rate > idealRateMax;
@@ -39,7 +39,7 @@ export default function EyeBlinkScoreCard({ blinkData, score }: EyeBlinkScoreCar
             <Eye className="w-5 h-5 text-primary-400" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-white">Eye Blink</h3>
+            <h3 className="text-sm font-semibold text-dark-50">Eye Blink</h3>
             <p className="text-xs text-dark-400">Blink rate analysis</p>
           </div>
         </div>
@@ -48,7 +48,7 @@ export default function EyeBlinkScoreCard({ blinkData, score }: EyeBlinkScoreCar
             key={score}
             initial={{ scale: 1.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-2xl font-bold text-white"
+            className="text-2xl font-bold text-dark-50"
           >
             {score.toFixed(0)}
           </motion.div>
@@ -62,7 +62,7 @@ export default function EyeBlinkScoreCard({ blinkData, score }: EyeBlinkScoreCar
             <Activity className="w-3 h-3 text-primary-400" />
             <span className="text-xs text-dark-400">Blink Rate</span>
           </div>
-          <div className="text-lg font-bold text-white">
+          <div className="text-lg font-bold text-dark-50">
             {blinkData.blink_rate.toFixed(1)}
             <span className="text-xs text-dark-400 font-normal ml-1">/min</span>
           </div>
@@ -75,7 +75,7 @@ export default function EyeBlinkScoreCard({ blinkData, score }: EyeBlinkScoreCar
             <EyeOff className="w-3 h-3 text-primary-400" />
             <span className="text-xs text-dark-400">EAR</span>
           </div>
-          <div className="text-lg font-bold text-white">{earPct}%</div>
+          <div className="text-lg font-bold text-dark-50">{earPct}%</div>
           <span className="text-xs text-dark-400">
             {blinkData.is_blink ? 'Blinking' : 'Open'}
           </span>
@@ -84,7 +84,7 @@ export default function EyeBlinkScoreCard({ blinkData, score }: EyeBlinkScoreCar
 
       <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-dark-800/50 mb-3">
         <span className="text-xs text-dark-400">Total Blinks</span>
-        <span className="text-sm font-semibold text-white">{blinkData.total_blinks}</span>
+        <span className="text-sm font-semibold text-dark-50">{blinkData.total_blinks}</span>
       </div>
 
       <div className="mb-3">

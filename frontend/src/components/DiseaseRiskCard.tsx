@@ -62,7 +62,7 @@ export default function DiseaseRiskCard({ diseaseRisk, score }: DiseaseRiskCardP
             <Shield className="w-5 h-5 text-primary-400" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-white">Disease Risk</h3>
+            <h3 className="text-sm font-semibold text-dark-50">Disease Risk</h3>
             <p className="text-xs text-dark-400">Risk assessment</p>
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function DiseaseRiskCard({ diseaseRisk, score }: DiseaseRiskCardP
             key={score}
             initial={{ scale: 1.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-2xl font-bold text-white"
+            className="text-2xl font-bold text-dark-50"
           >
             {score.toFixed(0)}
           </motion.div>
@@ -86,7 +86,7 @@ export default function DiseaseRiskCard({ diseaseRisk, score }: DiseaseRiskCardP
             key={overall}
             initial={{ scale: 1.5 }}
             animate={{ scale: 1 }}
-            className="text-lg font-bold text-white"
+            className="text-lg font-bold text-dark-50"
           >
             {overall.toFixed(0)}%
           </motion.span>

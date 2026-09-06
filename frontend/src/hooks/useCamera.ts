@@ -15,6 +15,10 @@ export function useCamera() {
   const startCamera = useCallback(async () => {
     setError(null);
     try {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
+      }
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           width: { ideal: FRAME_WIDTH },

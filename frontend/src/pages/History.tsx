@@ -117,7 +117,7 @@ export default function History() {
     <div className="min-h-full">
       <div className="flex items-center justify-between mb-6">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-dark-50 flex items-center gap-3">
             <Clock className="w-6 h-6 text-primary-400" />
             Session History
           </h1>
@@ -143,12 +143,12 @@ export default function History() {
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search sessions by date, ID, or score..."
-          className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white/[0.05] border border-white/[0.08] text-sm text-white placeholder-dark-400 focus:outline-none focus:border-primary-500/50 focus:bg-white/[0.08] transition-all duration-300 ease-out"
+          className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-dark-800/40 border border-dark-800 text-sm text-dark-50 placeholder-dark-400 focus:outline-none focus:border-primary-500/50 focus:bg-dark-800/60 transition-all duration-300 ease-out"
         />
         {search && (
           <button
             onClick={() => setSearch('')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 hover:text-white transition-colors duration-300 ease-out"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 hover:text-dark-50 transition-colors duration-300 ease-out"
           >
             <X className="w-4 h-4" />
           </button>
@@ -176,7 +176,7 @@ export default function History() {
                   <button
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ease-out"
+                    className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-800/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ease-out"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
@@ -186,7 +186,7 @@ export default function History() {
                   <button
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="p-2 rounded-lg text-dark-400 hover:text-white hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ease-out"
+                    className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-800/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ease-out"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -206,12 +206,12 @@ export default function History() {
               className="glass-card"
             >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-white">
+                <h3 className="text-sm font-semibold text-dark-50">
                   Session #{selectedSession.id}
                 </h3>
                 <button
                   onClick={() => setSelectedSession(null)}
-                  className="text-dark-400 hover:text-white transition-colors duration-300 ease-out"
+                  className="text-dark-400 hover:text-dark-50 transition-colors duration-300 ease-out"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -228,7 +228,7 @@ export default function History() {
                   <div className="flex items-center gap-3 p-3 rounded-xl bg-dark-800/50">
                     <Award className="w-8 h-8 text-primary-400" />
                     <div>
-                      <div className="text-2xl font-bold text-white">
+                      <div className="text-2xl font-bold text-dark-50">
                         {sessionDetail.overall_score?.toFixed(0) || selectedSession.overall_score.toFixed(0)}
                       </div>
                       <div className="text-xs text-dark-400">Overall Score</div>
@@ -238,13 +238,13 @@ export default function History() {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="glass rounded-xl p-3">
                       <div className="text-xs text-dark-400">Duration</div>
-                      <div className="text-sm font-semibold text-white">
+                      <div className="text-sm font-semibold text-dark-50">
                         {selectedSession.duration_minutes.toFixed(1)} min
                       </div>
                     </div>
                     <div className="glass rounded-xl p-3">
                       <div className="text-xs text-dark-400">Date</div>
-                      <div className="text-sm font-semibold text-white">
+                      <div className="text-sm font-semibold text-dark-50">
                         {new Date(selectedSession.created_at).toLocaleDateString()}
                       </div>
                     </div>
@@ -306,7 +306,7 @@ export default function History() {
             >
               <div className="flex items-center gap-3 mb-4">
                 <AlertTriangle className="w-6 h-6 text-red-400" />
-                <h3 className="text-lg font-semibold text-white">Delete Session?</h3>
+                <h3 className="text-lg font-semibold text-dark-50">Delete Session?</h3>
               </div>
               <p className="text-sm text-dark-300 mb-6">
                 This action cannot be undone. All analysis data for this session will be permanently removed.

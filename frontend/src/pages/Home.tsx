@@ -133,7 +133,7 @@ export default function Home() {
             </button>
             <button
               onClick={() => navigate('/dashboard')}
-              className="px-8 py-3 rounded-xl glass glass-hover text-white font-semibold text-sm transition-all duration-300 ease-out"
+              className="px-8 py-3 rounded-xl glass glass-hover text-dark-50 font-semibold text-sm transition-all duration-300 ease-out"
             >
               View Dashboard
             </button>
@@ -151,7 +151,7 @@ export default function Home() {
             className="glass rounded-xl p-4 text-center"
           >
             <stat.icon className="w-5 h-5 text-primary-400 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">{stat.value}</div>
+            <div className="text-2xl font-bold text-dark-50">{stat.value}</div>
             <div className="text-xs text-dark-400 mt-1">{stat.label}</div>
           </motion.div>
         ))}
@@ -172,7 +172,7 @@ export default function Home() {
             >
               <feature.icon className="w-6 h-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
+            <h3 className="text-lg font-semibold text-dark-50 mb-2">{feature.title}</h3>
             <p className="text-sm text-dark-400 leading-relaxed">{feature.description}</p>
             <div className="mt-4 flex items-center gap-1 text-xs font-medium text-primary-400 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-out">
               Learn more <ArrowRight className="w-3 h-3" />

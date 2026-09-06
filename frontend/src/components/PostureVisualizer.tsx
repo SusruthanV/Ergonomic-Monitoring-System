@@ -36,7 +36,7 @@ export default function PostureVisualizer({ angles }: PostureVisualizerProps) {
 
   return (
     <div className="glass-card flex flex-col items-center">
-      <h3 className="text-sm font-semibold text-white mb-4">Posture Visualization</h3>
+      <h3 className="text-sm font-semibold text-dark-50 mb-4">Posture Visualization</h3>
       <svg viewBox="0 0 300 260" className="w-full max-w-[200px] h-auto">
         <g className={clsx(angleGlow(angles.spine))}>
           <motion.line
@@ -44,7 +44,7 @@ export default function PostureVisualizer({ angles }: PostureVisualizerProps) {
             y1={80}
             x2={spineX}
             y2={spineY}
-            stroke="rgba(255,255,255,0.1)"
+            stroke="rgba(15,23,42,0.15)"
             strokeWidth="2"
           />
           <motion.line
@@ -89,7 +89,7 @@ export default function PostureVisualizer({ angles }: PostureVisualizerProps) {
           cx={150}
           cy={40}
           r="18"
-          className="fill-dark-800 stroke-white/20"
+          className="fill-dark-800 stroke-dark-500/40"
           strokeWidth="2"
         />
         <motion.circle
@@ -101,9 +101,9 @@ export default function PostureVisualizer({ angles }: PostureVisualizerProps) {
           transition={{ duration: 2, repeat: Infinity }}
         />
 
-        <motion.circle cx={shoulderLX} cy={shoulderY} r="5" className="fill-dark-700 stroke-white/10" strokeWidth="1" />
-        <motion.circle cx={shoulderRX} cy={shoulderY} r="5" className="fill-dark-700 stroke-white/10" strokeWidth="1" />
-        <motion.circle cx={hipX} cy={hipY} r="5" className="fill-dark-700 stroke-white/10" strokeWidth="1" />
+        <motion.circle cx={shoulderLX} cy={shoulderY} r="5" className="fill-dark-700 stroke-dark-500/40" strokeWidth="1" />
+        <motion.circle cx={shoulderRX} cy={shoulderY} r="5" className="fill-dark-700 stroke-dark-500/40" strokeWidth="1" />
+        <motion.circle cx={hipX} cy={hipY} r="5" className="fill-dark-700 stroke-dark-500/40" strokeWidth="1" />
 
         {angles.neck > 5 && (
           <motion.text
