@@ -133,7 +133,30 @@ export default function History() {
     a.download = `ergoguard-sessions-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
-    toast.success('Data exported');
+    toast.success('Data exported as JSON');
+  };
+
+  const handleExportCsv = () => {
+    const headers = ['ID', 'Date', 'Duration (min)', 'Overall Score', 'Posture Score', 'Blink Score', 'Risk Score', 'Notes'];
+    const rows = sessions.map((s) => [
+      s.id,
+      new Date(s.created_at).toLocaleDateString(),
+      s.duration_minutes.toFixed(1),
+      s.overall_score.toFixed(1),
+      (s as any).avg_posture_score?.toFixed(1) ?? '',
+      (s as any).avg_eye_blink_score?.toFixed(1) ?? '',
+      (s as any).avg_disease_risk_score?.toFixed(1) ?? '',
+      `"${(s.notes || '').replace(/"/g, '""')}"`,
+    ]);
+    const csv = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ergoguard-sessions-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Data exported as CSV');
   };
 
   return (
@@ -148,15 +171,27 @@ export default function History() {
             View and manage your analysis sessions
           </p>
         </motion.div>
-        <motion.button
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          onClick={handleExport}
-          className="px-4 py-2 rounded-xl glass glass-hover text-sm text-dark-300 flex items-center gap-2"
-        >
-          <Download className="w-4 h-4" />
-          Export
-        </motion.button>
+        <div className="flex items-center gap-2">
+          <motion.button
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            onClick={handleExportCsv}
+            className="px-4 py-2 rounded-xl glass glass-hover text-sm text-dark-300 flex items-center gap-2"
+          >
+            <Download className="w-4 h-4" />
+            CSV
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.05 }}
+            onClick={handleExport}
+            className="px-4 py-2 rounded-xl glass glass-hover text-sm text-dark-300 flex items-center gap-2"
+          >
+            <Download className="w-4 h-4" />
+            JSON
+          </motion.button>
+        </div>
       </div>
 
       <div className="relative mb-4">
