@@ -15,6 +15,20 @@ function angleColor(value: number, good: boolean): string {
   return 'bg-gradient-to-r from-accent-500 to-orange-400';
 }
 
+function scoreColor(score: number): string {
+  if (score < 50) return 'text-red-400';
+  if (score < 70) return 'text-orange-400';
+  if (score < 80) return 'text-yellow-400';
+  return 'text-green-400';
+}
+
+function scoreBgColor(score: number): string {
+  if (score < 50) return 'bg-red-500/10';
+  if (score < 70) return 'bg-orange-500/10';
+  if (score < 80) return 'bg-yellow-500/10';
+  return 'bg-green-500/10';
+}
+
 function angleLabel(value: number, good: boolean): string {
   if (good) return 'Good';
   if (value > 30) return 'Poor';
@@ -69,12 +83,12 @@ export default function PostureScoreCard({ posture, score }: PostureScoreCardPro
             <p className="text-xs text-dark-400">Real-time posture analysis</p>
           </div>
         </div>
-        <div className="text-right">
+        <div className={clsx('text-right px-3 py-1 rounded-xl', scoreBgColor(score))}>
           <motion.div
             key={score}
             initial={{ scale: 1.5, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-2xl font-bold text-dark-50"
+            className={clsx('text-2xl font-bold', scoreColor(score))}
           >
             {score.toFixed(0)}
           </motion.div>

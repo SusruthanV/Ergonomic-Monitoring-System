@@ -36,13 +36,24 @@ function getGradeGlow(grade: string): string {
 }
 
 function getScoreColor(score: number): string {
-  if (score >= 90) return 'text-emerald-400';
-  if (score >= 80) return 'text-secondary-400';
-  if (score >= 70) return 'text-teal-400';
-  if (score >= 60) return 'text-primary-400';
-  if (score >= 50) return 'text-accent-400';
-  if (score >= 40) return 'text-orange-400';
-  return 'text-red-400';
+  if (score < 50) return 'text-red-400';
+  if (score < 70) return 'text-orange-400';
+  if (score < 80) return 'text-yellow-400';
+  return 'text-green-400';
+}
+
+function getScoreGradient(score: number): { from: string; to: string } {
+  if (score < 50) return { from: '#ef4444', to: '#f87171' };
+  if (score < 70) return { from: '#f97316', to: '#fb923c' };
+  if (score < 80) return { from: '#eab308', to: '#facc15' };
+  return { from: '#22c55e', to: '#4ade80' };
+}
+
+function getScoreGlow(score: number): string {
+  if (score < 50) return 'shadow-red-500/30';
+  if (score < 70) return 'shadow-orange-500/30';
+  if (score < 80) return 'shadow-yellow-500/30';
+  return 'shadow-green-500/30';
 }
 
 const circumference = 2 * Math.PI * 70;
@@ -60,6 +71,7 @@ export default function OverallScoreCard({ scores }: OverallScoreCardProps) {
   const grade = scores.grade || 'N/A';
   const score = Math.round(scores.overall);
   const strokeDashoffset = circumference - (score / 100) * circumference;
+  const scoreGradient = getScoreGradient(score);
 
   const subScores = [
     { label: 'Posture', value: scores.posture, key: 'posture', color: 'stroke-primary-400' },
@@ -71,7 +83,7 @@ export default function OverallScoreCard({ scores }: OverallScoreCardProps) {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={clsx('glass-card p-4 shadow-lg', getGradeGlow(grade))}
+      className={clsx('glass-card p-4 shadow-lg', getScoreGlow(score))}
     >
       <div className="flex items-center gap-4">
         <div className="relative w-20 h-20 flex-shrink-0">
@@ -99,8 +111,8 @@ export default function OverallScoreCard({ scores }: OverallScoreCardProps) {
             />
             <defs>
               <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#818cf8" />
-                <stop offset="100%" stopColor="#8b5cf6" />
+                <stop offset="0%" stopColor={scoreGradient.from} />
+                <stop offset="100%" stopColor={scoreGradient.to} />
               </linearGradient>
             </defs>
           </svg>

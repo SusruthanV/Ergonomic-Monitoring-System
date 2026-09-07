@@ -24,6 +24,7 @@ function clampScore(v: number): number {
 
 function playBeep(freq: number, dur: number) {
   try {
+    const vol = useStore.getState().volume;
     const ctx = new AudioContext();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
@@ -31,19 +32,18 @@ function playBeep(freq: number, dur: number) {
     gain.connect(ctx.destination);
     osc.frequency.value = freq;
     osc.type = 'sine';
-    gain.gain.setValueAtTime(0.6, ctx.currentTime);
+    gain.gain.setValueAtTime(vol * 0.8, ctx.currentTime);
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + dur);
   } catch (e) { /* ignore */ }
 }
 
-let _lastBeepTime = 0;
-function tryBeep(freq: number, dur: number, cooldownMs: number) {
-  const now = Date.now();
-  if (now - _lastBeepTime < cooldownMs) return;
-  _lastBeepTime = now;
-  console.log('[SOUND] Playing beep at', freq, 'Hz');
+let _beepCooldown = false;
+function tryBeep(freq: number, dur: number) {
+  if (_beepCooldown) return;
+  _beepCooldown = true;
   playBeep(freq, dur);
+  setTimeout(() => { _beepCooldown = false; }, 2000);
 }
 
 function computeDemoPostureScore(neck: number, shoulder: number, spine: number): number {
@@ -204,14 +204,13 @@ export default function Analysis() {
     isPausedRef.current = isPaused;
   }, [isPaused]);
 
+  const beepFrameRef = useRef(0);
+
   useEffect(() => {
     if (!isSessionActive || !latestScores) return;
-    const postureScore = latestScores.posture;
-    const blinkScore = latestScores.eye_blink;
-    const grade = latestScores.grade;
-    if (postureScore < 70) tryBeep(440, 0.3, 3000);
-    if (blinkScore < 70) tryBeep(523, 0.3, 3000);
-    if (grade === 'D' || grade === 'F') tryBeep(659, 0.3, 5000);
+    const p = latestScores.posture;
+    if (p < 50) tryBeep(330, 0.4);
+    else if (p < 70) tryBeep(440, 0.4);
   }, [latestScores, isSessionActive]);
 
   useEffect(() => {
