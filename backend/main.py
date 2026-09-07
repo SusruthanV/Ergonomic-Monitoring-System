@@ -9,7 +9,7 @@ from fastapi.staticfiles import StaticFiles
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from database import init_db
-from routes import analysis_router, history_router, dashboard_router, auth_router
+from routes import analysis_router, history_router, dashboard_router, auth_router, achievements_router
 
 
 @asynccontextmanager
@@ -37,6 +37,7 @@ app.include_router(auth_router)
 app.include_router(analysis_router)
 app.include_router(history_router)
 app.include_router(dashboard_router)
+app.include_router(achievements_router)
 
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
 if os.path.isdir(static_dir):

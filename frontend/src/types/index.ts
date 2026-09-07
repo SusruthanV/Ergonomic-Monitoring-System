@@ -85,3 +85,19 @@ export interface AuthResponse {
   token_type: string;
   user: User;
 }
+
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  earned: boolean;
+  earned_at: string | null;
+}
+
+export interface AchievementStats {
+  current_streak: number;
+  best_streak: number;
+  total_sessions: number;
+  total_hours: number;
+}

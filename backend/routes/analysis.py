@@ -4,6 +4,7 @@ import time
 import asyncio
 import cv2
 import numpy as np
+from datetime import datetime
 import mediapipe as mp
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
@@ -125,18 +126,37 @@ async def websocket_endpoint(websocket: WebSocket):
     active_sessions[session_key] = state
 
     try:
-        async with async_session() as db_session:
-            user_session = UserSession()
-            db_session.add(user_session)
-            await db_session.commit()
-            await db_session.refresh(user_session)
-            state.db_session_id = user_session.id
-
         while True:
             raw_data = await asyncio.wait_for(websocket.receive_text(), timeout=120.0)
             message = json.loads(raw_data)
 
+            if message.get("type") == "start_session":
+                if state.db_session_id is None:
+                    async with async_session() as db_session:
+                        user_session = UserSession()
+                        db_session.add(user_session)
+                        await db_session.commit()
+                        await db_session.refresh(user_session)
+                        state.db_session_id = user_session.id
+                        state.start_time = time.time()
+                await websocket.send_json({"type": "session_started", "session_id": state.db_session_id})
+                continue
+
+            if message.get("type") == "stop_session":
+                if state.db_session_id is not None:
+                    async with async_session() as db_session:
+                        result = await db_session.get(UserSession, state.db_session_id)
+                        if result:
+                            result.ended_at = datetime.utcnow()
+                            await db_session.commit()
+                    state.db_session_id = None
+                await websocket.send_json({"type": "session_stopped"})
+                continue
+
             if message.get("type") != "frame":
+                continue
+
+            if state.db_session_id is None:
                 continue
 
             frame_data = message.get("data", "")
@@ -248,7 +268,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 async with async_session() as db_session:
                     result = await db_session.get(UserSession, state.db_session_id)
                     if result:
-                        result.ended_at = time.time()
+                        result.ended_at = datetime.utcnow()
                         await db_session.commit()
             except Exception:
                 pass

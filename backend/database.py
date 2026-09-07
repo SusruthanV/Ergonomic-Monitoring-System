@@ -28,6 +28,8 @@ class User(Base):
     otp_code: Mapped[str | None] = mapped_column(String(6), nullable=True)
     otp_expires_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    
+    achievements = relationship("UserAchievement", backref="user", cascade="all, delete-orphan")
 
 
 class UserSession(Base):
@@ -103,6 +105,15 @@ class ScoreAggregate(Base):
     session_duration_minutes: Mapped[float] = mapped_column(Float)
 
     session = relationship("UserSession", back_populates="score_aggregates")
+
+
+class UserAchievement(Base):
+    __tablename__ = "user_achievements"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
+    badge_id: Mapped[str] = mapped_column(String(50), nullable=False)
+    earned_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
 
 async def init_db():

@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   Activity,
   Clock,
+  Award,
   Settings,
   Brain,
   LogOut,
@@ -19,6 +20,7 @@ const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/analysis', label: 'Analysis', icon: Activity },
   { to: '/history', label: 'History', icon: Clock },
+  { to: '/achievements', label: 'Achievements', icon: Award },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
 

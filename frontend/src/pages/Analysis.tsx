@@ -151,7 +151,7 @@ export default function Analysis() {
     toggleFullscreen,
   } = useStore();
 
-  const { sendFrame, lastResult, isConnected } = useWebSocket();
+  const { sendFrame, sendStartSession, sendStopSession, lastResult, isConnected } = useWebSocket();
   const {
     videoRef,
     canvasRef,
@@ -240,6 +240,8 @@ export default function Analysis() {
     isPausedRef.current = false;
     resetSessionData();
 
+    sendStartSession();
+
     sessionTimerRef.current = setInterval(() => {
       const start = useStore.getState().sessionStartTime || Date.now();
       useStore.getState().setSessionElapsed(
@@ -252,19 +254,20 @@ export default function Analysis() {
     }, 400);
 
     toast.success('Session started');
-  }, [captureFrame, sendFrame, isConnected]);
+  }, [captureFrame, sendFrame, sendStartSession, isConnected]);
 
   const stopSession = useCallback(() => {
     if (sessionTimerRef.current) {
       clearInterval(sessionTimerRef.current);
       sessionTimerRef.current = null;
     }
+    sendStopSession();
     stopCapture();
     stopCamera();
     setIsPaused(false);
     setSessionActive(false);
     toast.success('Session ended');
-  }, [stopCapture, stopCamera]);
+  }, [sendStopSession, stopCapture, stopCamera]);
 
   const togglePause = useCallback(() => {
     if (isPaused) {

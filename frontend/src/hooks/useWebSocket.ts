@@ -94,6 +94,18 @@ export function useWebSocket() {
     }
   }, [connect]);
 
+  const sendStartSession = useCallback(() => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ type: 'start_session' }));
+    }
+  }, []);
+
+  const sendStopSession = useCallback(() => {
+    if (wsRef.current?.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({ type: 'stop_session' }));
+    }
+  }, []);
+
   useEffect(() => {
     mountedRef.current = true;
     connect();
@@ -109,5 +121,5 @@ export function useWebSocket() {
     };
   }, [connect]);
 
-  return { sendFrame, lastResult, isConnected, connectionStats };
+  return { sendFrame, sendStartSession, sendStopSession, lastResult, isConnected, connectionStats };
 }

@@ -145,4 +145,26 @@ export const api = {
     const res = await fetch(`${API_BASE}/api/dashboard/realtime/${sessionId}`);
     return handleResponse(res);
   },
+
+  async fetchAchievements(): Promise<any> {
+    const res = await fetch(`${API_BASE}/api/achievements`, {
+      headers: { ...authHeaders() },
+    });
+    return handleResponse(res);
+  },
+
+  async fetchAchievementStats(): Promise<any> {
+    const res = await fetch(`${API_BASE}/api/achievements/stats`, {
+      headers: { ...authHeaders() },
+    });
+    return handleResponse(res);
+  },
+
+  async checkBadges(): Promise<any> {
+    const res = await fetch(`${API_BASE}/api/achievements/check`, {
+      method: 'POST',
+      headers: { ...authHeaders() },
+    });
+    return handleResponse(res);
+  },
 };
