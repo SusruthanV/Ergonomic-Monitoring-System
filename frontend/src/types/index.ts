@@ -54,6 +54,7 @@ export interface SessionSummary {
   ended_at: string | null;
   duration_minutes: number;
   overall_score: number;
+  notes: string | null;
 }
 
 export interface TrendData {

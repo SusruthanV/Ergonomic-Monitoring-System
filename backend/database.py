@@ -36,6 +36,7 @@ class UserSession(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     ended_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    notes: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     posture_records = relationship("PostureRecord", back_populates="session", cascade="all, delete-orphan")
     blink_records = relationship("EyeBlinkRecord", back_populates="session", cascade="all, delete-orphan")

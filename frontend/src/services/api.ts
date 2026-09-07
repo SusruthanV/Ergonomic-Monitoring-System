@@ -103,6 +103,7 @@ export const api = {
       ...s,
       duration_minutes: s.total_duration_minutes ?? s.duration_minutes ?? 0,
       overall_score: s.avg_overall_score ?? s.overall_score ?? 0,
+      notes: s.notes ?? null,
     }));
     return { sessions };
   },
@@ -129,6 +130,15 @@ export const api = {
     if (!res.ok) {
       throw new Error(`Failed to delete session: ${res.status}`);
     }
+  },
+
+  async updateSessionNotes(id: number, notes: string | null): Promise<any> {
+    const res = await fetch(`${API_BASE}/api/history/sessions/${id}/notes`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ notes }),
+    });
+    return handleResponse(res);
   },
 
   async fetchRealtime(sessionId: number): Promise<any> {

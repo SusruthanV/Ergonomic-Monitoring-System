@@ -10,6 +10,8 @@ import {
   ChevronLeft,
   ChevronRight,
   AlertTriangle,
+  FileText,
+  Save,
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { api } from '../services/api';
@@ -29,6 +31,8 @@ export default function History() {
   const [loadingDetail, setLoadingDetail] = useState(false);
   const [page, setPage] = useState(1);
   const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+  const [sessionNotes, setSessionNotes] = useState<string>('');
+  const [savingNotes, setSavingNotes] = useState(false);
 
   const fetchSessions = async () => {
     setLoading(true);
@@ -58,7 +62,8 @@ export default function History() {
       return (
         date.toLowerCase().includes(q) ||
         s.id.toString().includes(q) ||
-        s.overall_score.toString().includes(q)
+        s.overall_score.toString().includes(q) ||
+        (s.notes && s.notes.toLowerCase().includes(q))
       );
     } catch {
       return false;
@@ -75,9 +80,11 @@ export default function History() {
     setSelectedSession(session);
     setLoadingDetail(true);
     setSessionDetail(null);
+    setSessionNotes(session.notes || '');
     try {
       const detail = await api.fetchSessionDetail(session.id);
       setSessionDetail(detail);
+      if (detail.notes) setSessionNotes(detail.notes);
     } catch (err: any) {
       toast.error(err?.message || 'Failed to load session details');
     } finally {
@@ -98,6 +105,22 @@ export default function History() {
       toast.error(err?.message || 'Failed to delete session');
     } finally {
       setConfirmDelete(null);
+    }
+  };
+
+  const handleSaveNotes = async () => {
+    if (!selectedSession) return;
+    setSavingNotes(true);
+    try {
+      await api.updateSessionNotes(selectedSession.id, sessionNotes || null);
+      setSessions(sessions.map((s) =>
+        s.id === selectedSession.id ? { ...s, notes: sessionNotes || null } : s
+      ));
+      toast.success('Notes saved');
+    } catch (err: any) {
+      toast.error(err?.message || 'Failed to save notes');
+    } finally {
+      setSavingNotes(false);
     }
   };
 
@@ -269,6 +292,35 @@ export default function History() {
                         {sessionDetail.disease_risk_score?.toFixed(0) || 'N/A'}
                       </div>
                     </div>
+                  </div>
+
+                  <div className="glass rounded-xl p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-dark-400" />
+                        <span className="text-xs text-dark-400">Session Notes</span>
+                      </div>
+                      <button
+                        onClick={handleSaveNotes}
+                        disabled={savingNotes}
+                        className={clsx(
+                          'flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all duration-200',
+                          savingNotes
+                            ? 'text-dark-500 cursor-not-allowed'
+                            : 'text-primary-400 hover:bg-primary-500/10'
+                        )}
+                      >
+                        <Save className="w-3 h-3" />
+                        {savingNotes ? 'Saving...' : 'Save'}
+                      </button>
+                    </div>
+                    <textarea
+                      value={sessionNotes}
+                      onChange={(e) => setSessionNotes(e.target.value)}
+                      placeholder="Add notes about this session..."
+                      rows={3}
+                      className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-700 text-sm text-dark-50 placeholder-dark-500 focus:outline-none focus:border-primary-500/50 resize-none transition-all duration-200"
+                    />
                   </div>
                 </div>
               ) : (

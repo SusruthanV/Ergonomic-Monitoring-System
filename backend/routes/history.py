@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from fastapi import APIRouter, HTTPException, Depends
+from pydantic import BaseModel
 from sqlalchemy import select, func, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -16,6 +17,7 @@ async def list_sessions(db: AsyncSession = Depends(get_session)):
             UserSession.id,
             UserSession.created_at,
             UserSession.ended_at,
+            UserSession.notes,
             func.avg(ScoreAggregate.overall_score).label("avg_overall_score"),
             func.avg(ScoreAggregate.posture_score).label("avg_posture_score"),
             func.avg(ScoreAggregate.eye_blink_score).label("avg_eye_blink_score"),
@@ -35,6 +37,7 @@ async def list_sessions(db: AsyncSession = Depends(get_session)):
             "id": row.id,
             "created_at": row.created_at.isoformat() if row.created_at else None,
             "ended_at": row.ended_at.isoformat() if row.ended_at else None,
+            "notes": row.notes,
             "avg_overall_score": round(float(row.avg_overall_score), 2) if row.avg_overall_score else None,
             "avg_posture_score": round(float(row.avg_posture_score), 2) if row.avg_posture_score else None,
             "avg_eye_blink_score": round(float(row.avg_eye_blink_score), 2) if row.avg_eye_blink_score else None,
@@ -68,6 +71,7 @@ async def get_session(session_id: int, db: AsyncSession = Depends(get_session)):
         "id": result.id,
         "created_at": result.created_at.isoformat() if result.created_at else None,
         "ended_at": result.ended_at.isoformat() if result.ended_at else None,
+        "notes": result.notes,
         "record_counts": {
             "posture_records": posture_count.scalar(),
             "blink_records": blink_count.scalar(),
@@ -174,3 +178,18 @@ async def delete_session(session_id: int, db: AsyncSession = Depends(get_session
     await db.delete(result)
     await db.commit()
     return {"message": f"Session {session_id} deleted successfully"}
+
+
+class NotesUpdate(BaseModel):
+    notes: str | None = None
+
+
+@router.patch("/sessions/{session_id}/notes")
+async def update_session_notes(session_id: int, body: NotesUpdate, db: AsyncSession = Depends(get_session)):
+    result = await db.get(UserSession, session_id)
+    if not result:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    result.notes = body.notes
+    await db.commit()
+    return {"message": "Notes updated", "notes": result.notes}
