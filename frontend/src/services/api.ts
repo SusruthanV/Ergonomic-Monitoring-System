@@ -167,4 +167,18 @@ export const api = {
     });
     return handleResponse(res);
   },
+
+  async downloadReport(period: string): Promise<void> {
+    const res = await fetch(`${API_BASE}/api/reports/generate?period=${period}`, {
+      headers: { ...authHeaders() },
+    });
+    if (!res.ok) throw new Error('Failed to generate report');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ergoguard-report-${period}-${new Date().toISOString().split('T')[0]}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
 };

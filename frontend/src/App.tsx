@@ -6,8 +6,9 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Analysis from './pages/Analysis';
 import History from './pages/History';
-import Settings from './pages/Settings';
 import Achievements from './pages/Achievements';
+import Reports from './pages/Reports';
+import Settings from './pages/Settings';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import VerifyEmail from './pages/VerifyEmail';
@@ -51,6 +52,7 @@ export default function App() {
           <Route path="analysis" element={<Analysis />} />
           <Route path="history" element={<History />} />
           <Route path="achievements" element={<Achievements />} />
+          <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
