@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Activity, Timer, Pause, Play, Square, WifiOff, Maximize, Minimize } from 'lucide-react';
+import { Activity, Timer, Pause, Play, Square, WifiOff, Maximize, Minimize, Keyboard } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useStore } from '../store/useStore';
 import { useWebSocket } from '../hooks/useWebSocket';
@@ -290,21 +290,46 @@ export default function Analysis() {
     };
   }, [stopCamera]);
 
+  const isFullscreenRef = useRef(isFullscreen);
+  const isSessionActiveRef = useRef(isSessionActive);
+  const isCameraActiveRef = useRef(isCameraActive);
+
+  useEffect(() => { isFullscreenRef.current = isFullscreen; }, [isFullscreen]);
+  useEffect(() => { isSessionActiveRef.current = isSessionActive; }, [isSessionActive]);
+  useEffect(() => { isCameraActiveRef.current = isCameraActive; }, [isCameraActive]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
       if (e.key === 'f' || e.key === 'F') {
-        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
         e.preventDefault();
         toggleFullscreen();
       }
-      if (e.key === 'Escape' && isFullscreen) {
+      if (e.key === 'Escape' && isFullscreenRef.current) {
         e.preventDefault();
         toggleFullscreen();
+      }
+      if (e.key === ' ' && isSessionActiveRef.current) {
+        e.preventDefault();
+        togglePause();
+      }
+      if ((e.key === 'r' || e.key === 'R') && isSessionActiveRef.current) {
+        e.preventDefault();
+        stopSession();
+      }
+      if ((e.key === 's' || e.key === 'S') && !isSessionActiveRef.current && isCameraActiveRef.current) {
+        e.preventDefault();
+        startSession();
+      }
+      if ((e.key === 'c' || e.key === 'C') && !isCameraActiveRef.current) {
+        e.preventDefault();
+        startCamera();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isFullscreen, toggleFullscreen]);
+  }, [toggleFullscreen, togglePause, stopSession, startSession, startCamera]);
 
   return (
     <div className={clsx('min-h-full', isFullscreen && 'fixed inset-0 z-50 bg-dark-900 overflow-hidden flex flex-col')}>
@@ -340,6 +365,25 @@ export default function Analysis() {
               </span>
             </motion.div>
           )}
+          <div className="relative group">
+            <button
+              className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 border border-dark-700 hover:border-dark-600 transition-all duration-200"
+              title="Keyboard shortcuts"
+            >
+              <Keyboard className="w-4 h-4 text-dark-300" />
+            </button>
+            <div className="absolute right-0 top-full mt-2 w-56 p-3 rounded-xl bg-dark-800 border border-dark-700 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <p className="text-xs font-semibold text-dark-50 mb-2">Keyboard Shortcuts</p>
+              <div className="space-y-1.5 text-xs text-dark-400">
+                <div className="flex justify-between"><span>Start Camera</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">C</kbd></div>
+                <div className="flex justify-between"><span>Start Session</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">S</kbd></div>
+                <div className="flex justify-between"><span>Pause/Resume</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">Space</kbd></div>
+                <div className="flex justify-between"><span>Stop Session</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">R</kbd></div>
+                <div className="flex justify-between"><span>Fullscreen</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">F</kbd></div>
+                <div className="flex justify-between"><span>Exit Fullscreen</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">Esc</kbd></div>
+              </div>
+            </div>
+          </div>
           <button
             onClick={toggleFullscreen}
             className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 border border-dark-700 hover:border-dark-600 transition-all duration-200"
