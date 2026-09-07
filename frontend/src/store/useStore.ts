@@ -36,6 +36,7 @@ interface ThemeState {
 }
 
 interface AppState extends AuthState, ThemeState {
+  isFullscreen: boolean;
   isSessionActive: boolean;
   currentSessionId: number | null;
   latestPosture: PostureData | null;
@@ -51,6 +52,7 @@ interface AppState extends AuthState, ThemeState {
   sessionStartTime: number | null;
   sessionElapsed: number;
 
+  toggleFullscreen: () => void;
   setSessionActive: (active: boolean) => void;
   setCurrentSessionId: (id: number | null) => void;
   updateAnalysis: (result: RawAnalysisResult) => void;
@@ -91,6 +93,7 @@ export const useStore = create<AppState>((set) => ({
     set({ theme });
   },
 
+  isFullscreen: false,
   isSessionActive: false,
   currentSessionId: null,
   latestPosture: null,
@@ -105,6 +108,8 @@ export const useStore = create<AppState>((set) => ({
   sessions: [],
   sessionStartTime: null,
   sessionElapsed: 0,
+
+  toggleFullscreen: () => set((state) => ({ isFullscreen: !state.isFullscreen })),
 
   setSessionActive: (active) =>
     set({

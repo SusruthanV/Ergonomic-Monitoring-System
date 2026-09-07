@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Activity, Timer, Pause, Play, Square, WifiOff } from 'lucide-react';
+import { Activity, Timer, Pause, Play, Square, WifiOff, Maximize, Minimize } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useStore } from '../store/useStore';
 import { useWebSocket } from '../hooks/useWebSocket';
@@ -118,11 +118,13 @@ export default function Analysis() {
     latestDiseaseRisk,
     latestScores,
     sessionElapsed,
+    isFullscreen,
     setSessionActive,
     updateAnalysis,
     addToHistory,
     setSessionElapsed,
     resetSessionData,
+    toggleFullscreen,
   } = useStore();
 
   const { sendFrame, lastResult, isConnected } = useWebSocket();
@@ -250,17 +252,35 @@ export default function Analysis() {
     };
   }, [stopCamera]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'f' || e.key === 'F') {
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+        e.preventDefault();
+        toggleFullscreen();
+      }
+      if (e.key === 'Escape' && isFullscreen) {
+        e.preventDefault();
+        toggleFullscreen();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFullscreen, toggleFullscreen]);
+
   return (
-    <div className="min-h-full">
-      <div className="flex items-center justify-between mb-6">
+    <div className={clsx('min-h-full', isFullscreen && 'fixed inset-0 z-50 bg-dark-900 overflow-hidden flex flex-col')}>
+      <div className={clsx('flex items-center justify-between', isFullscreen ? 'px-4 py-2' : 'mb-6')}>
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-          <h1 className="text-2xl font-bold text-dark-50 flex items-center gap-3">
-            <Activity className="w-6 h-6 text-primary-400" />
+          <h1 className={clsx('font-bold text-dark-50 flex items-center gap-3', isFullscreen ? 'text-lg' : 'text-2xl')}>
+            <Activity className={clsx('text-primary-400', isFullscreen ? 'w-5 h-5' : 'w-6 h-6')} />
             Real-time Analysis
           </h1>
-          <p className="text-sm text-dark-400 mt-1">
-            Live posture and ergonomic monitoring
-          </p>
+          {!isFullscreen && (
+            <p className="text-sm text-dark-400 mt-1">
+              Live posture and ergonomic monitoring
+            </p>
+          )}
         </motion.div>
 
         <div className="flex items-center gap-3">
@@ -282,11 +302,25 @@ export default function Analysis() {
               </span>
             </motion.div>
           )}
+          <button
+            onClick={toggleFullscreen}
+            className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 border border-dark-700 hover:border-dark-600 transition-all duration-200"
+            title={isFullscreen ? 'Exit fullscreen (Esc)' : 'Fullscreen (F)'}
+          >
+            {isFullscreen ? (
+              <Minimize className="w-4 h-4 text-dark-300" />
+            ) : (
+              <Maximize className="w-4 h-4 text-dark-300" />
+            )}
+          </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-1 space-y-4">
+      <div className={clsx(
+        'grid gap-4 flex-1 min-h-0',
+        isFullscreen ? 'grid-cols-2' : 'grid-cols-1 lg:grid-cols-3'
+      )}>
+        <div className={clsx('space-y-3 overflow-y-auto', !isFullscreen && 'lg:col-span-1')}>
           <CameraView
             videoRef={videoRef}
             canvasRef={canvasRef}
@@ -304,7 +338,7 @@ export default function Analysis() {
               <button
                 onClick={togglePause}
                 className={clsx(
-                  'flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2',
+                  'flex-1 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2',
                   isPaused
                     ? 'bg-secondary-500 hover:bg-secondary-600 text-white'
                     : 'bg-accent-500 hover:bg-accent-600 text-white'
@@ -315,7 +349,7 @@ export default function Analysis() {
               </button>
               <button
                 onClick={stopSession}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2"
               >
                 <Square className="w-4 h-4" />
                 Stop
@@ -324,7 +358,10 @@ export default function Analysis() {
           )}
         </div>
 
-        <div className="lg:col-span-2 space-y-4 max-h-[calc(100vh-8rem)] overflow-y-auto pr-2">
+        <div className={clsx(
+          'space-y-3 overflow-y-auto pr-2',
+          !isFullscreen && 'lg:col-span-2 max-h-[calc(100vh-8rem)]'
+        )}>
           {isSessionActive || latestScores ? (
             <>
               <OverallScoreCard scores={latestScores} />
