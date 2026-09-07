@@ -35,7 +35,14 @@ interface ThemeState {
   setTheme: (theme: 'dark' | 'light') => void;
 }
 
-interface AppState extends AuthState, ThemeState {
+interface SoundState {
+  soundEnabled: boolean;
+  volume: number;
+  setSoundEnabled: (enabled: boolean) => void;
+  setVolume: (volume: number) => void;
+}
+
+interface AppState extends AuthState, ThemeState, SoundState {
   isFullscreen: boolean;
   isSessionActive: boolean;
   currentSessionId: number | null;
@@ -91,6 +98,19 @@ export const useStore = create<AppState>((set) => ({
   setTheme: (theme) => {
     localStorage.setItem('theme', theme);
     set({ theme });
+  },
+
+  soundEnabled: localStorage.getItem('soundEnabled') !== 'false',
+  volume: parseFloat(localStorage.getItem('volume') || '0.5'),
+
+  setSoundEnabled: (enabled) => {
+    localStorage.setItem('soundEnabled', String(enabled));
+    set({ soundEnabled: enabled });
+  },
+
+  setVolume: (volume) => {
+    localStorage.setItem('volume', String(volume));
+    set({ volume });
   },
 
   isFullscreen: false,

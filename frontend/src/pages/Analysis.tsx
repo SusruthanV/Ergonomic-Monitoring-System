@@ -22,6 +22,30 @@ function clampScore(v: number): number {
   return Math.max(0, Math.min(100, Math.round(v)));
 }
 
+function playBeep(freq: number, dur: number) {
+  try {
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.6, ctx.currentTime);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + dur);
+  } catch (e) { /* ignore */ }
+}
+
+let _lastBeepTime = 0;
+function tryBeep(freq: number, dur: number, cooldownMs: number) {
+  const now = Date.now();
+  if (now - _lastBeepTime < cooldownMs) return;
+  _lastBeepTime = now;
+  console.log('[SOUND] Playing beep at', freq, 'Hz');
+  playBeep(freq, dur);
+}
+
 function computeDemoPostureScore(neck: number, shoulder: number, spine: number): number {
   const neckScore = Math.max(0, 100 - (neck / 30) * 100);
   const shoulderScore = Math.max(0, 100 - (shoulder / 25) * 100);
@@ -153,6 +177,10 @@ export default function Analysis() {
         lastScoreUpdateRef.current = now;
         updateAnalysis(lastResult);
         addToHistory(lastResult);
+        const blink = lastResult.eye_blink as any;
+        const postureScore = (lastResult.scores as any)?.posture_score ?? (lastResult.scores as any)?.posture ?? 100;
+        const blinkRate = blink?.blink_rate_per_minute ?? blink?.blink_rate ?? 15;
+        const grade = lastResult.scores?.grade ?? 'N/A';
       } else {
         pendingResultRef.current = lastResult;
       }
@@ -177,14 +205,24 @@ export default function Analysis() {
   }, [isPaused]);
 
   useEffect(() => {
+    if (!isSessionActive || !latestScores) return;
+    const postureScore = latestScores.posture;
+    const blinkScore = latestScores.eye_blink;
+    const grade = latestScores.grade;
+    if (postureScore < 70) tryBeep(440, 0.3, 3000);
+    if (blinkScore < 70) tryBeep(523, 0.3, 3000);
+    if (grade === 'D' || grade === 'F') tryBeep(659, 0.3, 5000);
+  }, [latestScores, isSessionActive]);
+
+  useEffect(() => {
     if (isSessionActive && !isConnected && !demoIntervalRef.current) {
+      toast('Backend offline — showing preview data', { icon: '🔮' });
       demoIntervalRef.current = setInterval(() => {
         if (isPausedRef.current) return;
         const demo = generateDemoResult();
         updateAnalysis(demo);
         addToHistory(demo);
       }, 2500);
-      toast('Backend offline — showing preview data', { icon: '🔮' });
     }
     if (isConnected && demoIntervalRef.current) {
       clearInterval(demoIntervalRef.current);
