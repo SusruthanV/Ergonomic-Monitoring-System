@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import type { TrendData } from '../types';
+import { formatISTDateOnly } from '../utils/dates';
 import clsx from 'clsx';
 
 interface AnalyticsChartProps {
@@ -38,12 +39,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 function formatDate(dateStr: string): string {
-  try {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  } catch {
-    return dateStr;
-  }
+  return formatISTDateOnly(dateStr);
 }
 
 export default function AnalyticsChart({ data, dataKey, color, title }: AnalyticsChartProps) {

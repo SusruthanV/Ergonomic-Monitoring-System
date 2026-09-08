@@ -17,6 +17,7 @@ import {
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
 import { api } from '../services/api';
+import { formatISTDateOnly } from '../utils/dates';
 import { Achievement, AchievementStats } from '../types';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -139,7 +140,7 @@ export default function Achievements() {
                   <p className="text-xs text-dark-400 mt-1">{badge.description}</p>
                   {badge.earned && badge.earned_at && (
                     <p className="text-xs text-dark-500 mt-2">
-                      Earned {new Date(badge.earned_at).toLocaleDateString()}
+                      Earned {formatISTDateOnly(badge.earned_at)}
                     </p>
                   )}
                 </div>

@@ -10,6 +10,7 @@ import Achievements from './pages/Achievements';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import Exercises from './pages/Exercises';
+import SessionComparison from './pages/SessionComparison';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import VerifyEmail from './pages/VerifyEmail';
@@ -55,6 +56,7 @@ export default function App() {
           <Route path="achievements" element={<Achievements />} />
           <Route path="reports" element={<Reports />} />
           <Route path="exercises" element={<Exercises />} />
+          <Route path="compare" element={<SessionComparison />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>

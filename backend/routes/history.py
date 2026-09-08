@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
-from sqlalchemy import select, func, delete
+from sqlalchemy import select, func, delete, Integer
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_session, UserSession, PostureRecord, EyeBlinkRecord, DiseaseRiskRecord, ScoreAggregate

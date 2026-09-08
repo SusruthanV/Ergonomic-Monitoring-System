@@ -199,4 +199,9 @@ export const api = {
     const res = await fetch(`${API_BASE}/api/exercises/${id}`);
     return handleResponse(res);
   },
+
+  async compareSessions(sessionId1: number, sessionId2: number): Promise<any> {
+    const res = await fetch(`${API_BASE}/api/compare?session_id_1=${sessionId1}&session_id_2=${sessionId2}`);
+    return handleResponse(res);
+  },
 };

@@ -12,6 +12,7 @@ import {
   LogOut,
   User,
   Dumbbell,
+  GitCompareArrows,
 } from 'lucide-react';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
@@ -24,6 +25,7 @@ const navItems = [
   { to: '/history', label: 'History', icon: Clock },
   { to: '/achievements', label: 'Achievements', icon: Award },
   { to: '/exercises', label: 'Exercises', icon: Dumbbell },
+  { to: '/compare', label: 'Compare', icon: GitCompareArrows },
   { to: '/reports', label: 'Reports', icon: FileText },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];

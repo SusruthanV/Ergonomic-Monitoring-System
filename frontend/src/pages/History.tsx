@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { api } from '../services/api';
+import { formatISTDate, formatISTDateOnly } from '../utils/dates';
 import ActivityTimeline from '../components/ActivityTimeline';
 import type { SessionSummary } from '../types';
 import toast from 'react-hot-toast';
@@ -54,11 +55,7 @@ export default function History() {
     if (!search) return true;
     const q = search.toLowerCase();
     try {
-      const date = new Date(s.created_at).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      });
+      const date = formatISTDateOnly(s.created_at);
       return (
         date.toLowerCase().includes(q) ||
         s.id.toString().includes(q) ||
@@ -140,7 +137,7 @@ export default function History() {
     const headers = ['ID', 'Date', 'Duration (min)', 'Overall Score', 'Posture Score', 'Blink Score', 'Risk Score', 'Notes'];
     const rows = sessions.map((s) => [
       s.id,
-      new Date(s.created_at).toLocaleDateString(),
+      formatISTDateOnly(s.created_at),
       s.duration_minutes.toFixed(1),
       s.overall_score.toFixed(1),
       (s as any).avg_posture_score?.toFixed(1) ?? '',
@@ -303,7 +300,7 @@ export default function History() {
                     <div className="glass rounded-xl p-3">
                       <div className="text-xs text-dark-400">Date</div>
                       <div className="text-sm font-semibold text-dark-50">
-                        {new Date(selectedSession.created_at).toLocaleDateString()}
+                        {formatISTDate(selectedSession.created_at)}
                       </div>
                     </div>
                   </div>
