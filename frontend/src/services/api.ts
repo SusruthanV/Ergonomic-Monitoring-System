@@ -181,4 +181,22 @@ export const api = {
     a.click();
     URL.revokeObjectURL(url);
   },
+
+  async fetchExerciseRecommendations(): Promise<any> {
+    const res = await fetch(`${API_BASE}/api/exercises/recommendations`);
+    return handleResponse(res);
+  },
+
+  async fetchAllExercises(category?: string): Promise<any> {
+    const url = category
+      ? `${API_BASE}/api/exercises/all?category=${category}`
+      : `${API_BASE}/api/exercises/all`;
+    const res = await fetch(url);
+    return handleResponse(res);
+  },
+
+  async fetchExerciseById(id: string): Promise<any> {
+    const res = await fetch(`${API_BASE}/api/exercises/${id}`);
+    return handleResponse(res);
+  },
 };

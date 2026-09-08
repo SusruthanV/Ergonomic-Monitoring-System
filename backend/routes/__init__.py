@@ -4,6 +4,7 @@ from .dashboard import router as dashboard_router
 from .auth import router as auth_router
 from .achievements import router as achievements_router
 from .reports import router as reports_router
+from .exercises import router as exercises_router
 
 __all__ = [
     "analysis_router",
@@ -12,4 +13,5 @@ __all__ = [
     "auth_router",
     "achievements_router",
     "reports_router",
+    "exercises_router",
 ]

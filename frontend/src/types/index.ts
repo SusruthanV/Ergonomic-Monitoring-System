@@ -101,3 +101,28 @@ export interface AchievementStats {
   total_sessions: number;
   total_hours: number;
 }
+
+export interface ExerciseStep {
+  instruction: string;
+  duration_seconds: number;
+  tip: string;
+}
+
+export interface Exercise {
+  id: string;
+  name: string;
+  category: string;
+  difficulty: string;
+  duration_seconds: number;
+  duration_minutes: number;
+  description: string;
+  benefits: string[];
+  steps: ExerciseStep[];
+  step_count: number;
+  target_conditions: string[];
+  muscle_groups: string[];
+  video_url: string;
+  video_title: string;
+  equipment_needed: string;
+  calories_estimate: number;
+}

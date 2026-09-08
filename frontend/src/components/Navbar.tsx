@@ -11,6 +11,7 @@ import {
   Brain,
   LogOut,
   User,
+  Dumbbell,
 } from 'lucide-react';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
@@ -22,6 +23,7 @@ const navItems = [
   { to: '/analysis', label: 'Analysis', icon: Activity },
   { to: '/history', label: 'History', icon: Clock },
   { to: '/achievements', label: 'Achievements', icon: Award },
+  { to: '/exercises', label: 'Exercises', icon: Dumbbell },
   { to: '/reports', label: 'Reports', icon: FileText },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
