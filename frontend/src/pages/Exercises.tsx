@@ -100,9 +100,9 @@ export default function Exercises() {
         <button
           onClick={() => setActiveTab('recommended')}
           className={clsx(
-            'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2',
+            'px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2',
             activeTab === 'recommended'
-              ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20'
+              ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20 shadow-lg shadow-primary-500/10'
               : 'glass text-dark-400 hover:text-dark-200'
           )}
         >
@@ -112,9 +112,9 @@ export default function Exercises() {
         <button
           onClick={() => setActiveTab('all')}
           className={clsx(
-            'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2',
+            'px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2',
             activeTab === 'all'
-              ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20'
+              ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20 shadow-lg shadow-primary-500/10'
               : 'glass text-dark-400 hover:text-dark-200'
           )}
         >
@@ -133,7 +133,7 @@ export default function Exercises() {
           <button
             onClick={() => setSelectedCategory(null)}
             className={clsx(
-              'px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200',
+              'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200',
               !selectedCategory
                 ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20'
                 : 'glass text-dark-400 hover:text-dark-200'
@@ -146,7 +146,7 @@ export default function Exercises() {
               key={cat}
               onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
               className={clsx(
-                'px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 capitalize',
+                'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 capitalize',
                 selectedCategory === cat
                   ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20'
                   : 'glass text-dark-400 hover:text-dark-200'

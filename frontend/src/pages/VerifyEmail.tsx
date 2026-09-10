@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Mail, CheckCircle, RefreshCw, Brain } from 'lucide-react';
+import { Mail, CheckCircle, RefreshCw, Brain, ArrowRight } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { api } from '../services/api';
 
@@ -68,41 +68,31 @@ export default function VerifyEmail() {
   };
 
   return (
-    <div className="min-h-full flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-80 h-80 rounded-full opacity-[0.03]"
-            style={{
-              background: `radial-gradient(circle, rgba(99,102,241,${0.3 - i * 0.05}), transparent)`,
-              left: `${20 + i * 25}%`,
-              top: `${25 + (i % 2) * 25}%`,
-            }}
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 5 + i, repeat: Infinity, ease: 'easeInOut', delay: i * 0.5 }}
-          />
-        ))}
+        <div className="absolute top-[10%] left-[20%] w-[300px] h-[300px] rounded-full bg-secondary-500/[0.05] blur-[80px] animate-aurora" />
+        <div className="absolute bottom-[10%] right-[15%] w-[250px] h-[250px] rounded-full bg-primary-500/[0.04] blur-[80px] animate-aurora" style={{ animationDelay: '-4s' }} />
+        <div className="bg-grid absolute inset-0 opacity-[0.08]" />
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 w-full max-w-md"
+        className="relative z-10 w-full max-w-md px-4"
       >
-        <div className="glass rounded-2xl p-8 border border-dark-800">
-          <div className="text-center mb-8">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-500/25">
-              <Mail className="w-7 h-7 text-white" />
-            </div>
-            <h1 className="text-2xl font-bold text-dark-50">Verify your email</h1>
-            <p className="text-sm text-dark-400 mt-1">
-              We sent a 6-digit code to{' '}
-              <span className="text-primary-400 font-medium">{email}</span>
-            </p>
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-secondary-400 to-teal-500 flex items-center justify-center mx-auto mb-5 shadow-xl shadow-secondary-500/25">
+            <Mail className="w-8 h-8 text-white" />
           </div>
+          <h1 className="text-3xl font-bold text-dark-50 mb-2">Verify your email</h1>
+          <p className="text-sm text-dark-400">
+            We sent a 6-digit code to{' '}
+            <span className="text-primary-400 font-semibold">{email}</span>
+          </p>
+        </div>
 
+        <div className="glass-card">
           <div className="flex items-center justify-center gap-3 mb-8">
             {otp.map((digit, i) => (
               <input
@@ -114,7 +104,7 @@ export default function VerifyEmail() {
                 value={digit}
                 onChange={(e) => handleOtpChange(i, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(i, e)}
-                className="w-12 h-14 text-center text-xl font-bold rounded-xl bg-dark-800 border border-dark-800 text-dark-50 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/20 transition-all"
+                className="w-12 h-14 text-center text-xl font-bold input-premium"
               />
             ))}
           </div>
@@ -122,7 +112,7 @@ export default function VerifyEmail() {
           <button
             onClick={handleVerify}
             disabled={loading || otp.join('').length !== 6}
-            className="w-full py-2.5 rounded-xl bg-gradient-to-r from-primary-500 to-violet-600 hover:from-primary-600 hover:to-violet-700 text-white font-semibold text-sm transition-all duration-300 ease-out flex items-center justify-center gap-2 shadow-lg shadow-primary-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {loading ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -130,6 +120,7 @@ export default function VerifyEmail() {
               <>
                 <CheckCircle className="w-4 h-4" />
                 Verify Email
+                <ArrowRight className="w-4 h-4" />
               </>
             )}
           </button>
@@ -138,7 +129,7 @@ export default function VerifyEmail() {
             <button
               onClick={handleResend}
               disabled={resending}
-              className="inline-flex items-center gap-1.5 text-sm text-dark-400 hover:text-primary-400 transition-colors duration-300 ease-out disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 text-sm text-dark-400 hover:text-primary-400 transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${resending ? 'animate-spin' : ''}`} />
               {resending ? 'Sending...' : 'Resend code'}

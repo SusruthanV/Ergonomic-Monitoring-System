@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { RefreshCw, Clock, Activity, TrendingUp, Award, Calendar, Play } from 'lucide-react';
+import { RefreshCw, Clock, Activity, TrendingUp, Award, Calendar, Play, Sparkles } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { api } from '../services/api';
 import OverallScoreCard from '../components/OverallScoreCard';
@@ -72,7 +72,7 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-4 gap-4 mb-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="skeleton h-28 rounded-xl" />
+            <div key={i} className="skeleton h-28 rounded-2xl" />
           ))}
         </div>
 
@@ -103,8 +103,8 @@ export default function Dashboard() {
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col items-center justify-center py-20 text-center"
       >
-        <div className="w-20 h-20 rounded-2xl bg-dark-800/50 flex items-center justify-center mb-6">
-          <Activity className="w-10 h-10 text-dark-500" />
+        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500/10 to-violet-500/10 flex items-center justify-center mb-6 border border-primary-500/10">
+          <Activity className="w-10 h-10 text-primary-400/60" />
         </div>
         <h2 className="text-xl font-semibold text-dark-50 mb-2">No data yet</h2>
         <p className="text-sm text-dark-400 mb-6 max-w-md">
@@ -112,7 +112,7 @@ export default function Dashboard() {
         </p>
         <button
           onClick={() => navigate('/analysis')}
-          className="px-6 py-3 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-all duration-300 ease-out flex items-center gap-2"
+          className="btn-primary"
         >
           <Play className="w-4 h-4" />
           Start Analysis
@@ -126,8 +126,8 @@ export default function Dashboard() {
       label: 'Total Sessions',
       value: dashboardSummary?.total_sessions ?? 0,
       icon: Activity,
-      color: 'from-primary-500 to-violet-600',
-      shadow: 'shadow-primary-500/25',
+      gradient: 'from-primary-500 to-violet-600',
+      glow: 'shadow-primary-500/20',
     },
     {
       label: 'Total Time',
@@ -135,8 +135,8 @@ export default function Dashboard() {
         ? `${dashboardSummary.total_hours.toFixed(1)}h`
         : '0h',
       icon: Clock,
-      color: 'from-secondary-500 to-teal-600',
-      shadow: 'shadow-secondary-500/25',
+      gradient: 'from-secondary-500 to-teal-600',
+      glow: 'shadow-secondary-500/20',
     },
     {
       label: 'Average Score',
@@ -144,8 +144,8 @@ export default function Dashboard() {
         ? dashboardSummary.avg_score.toFixed(1)
         : 'N/A',
       icon: TrendingUp,
-      color: 'from-accent-500 to-orange-600',
-      shadow: 'shadow-accent-500/25',
+      gradient: 'from-accent-500 to-orange-600',
+      glow: 'shadow-accent-500/20',
     },
     {
       label: 'Best Score',
@@ -153,8 +153,8 @@ export default function Dashboard() {
         ? dashboardSummary.best_score.toFixed(1)
         : 'N/A',
       icon: Award,
-      color: 'from-pink-500 to-rose-600',
-      shadow: 'shadow-pink-500/25',
+      gradient: 'from-pink-500 to-rose-600',
+      glow: 'shadow-pink-500/20',
     },
   ];
 
@@ -180,32 +180,30 @@ export default function Dashboard() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           onClick={fetchData}
-          className="px-4 py-2 rounded-xl glass glass-hover text-sm text-dark-300 flex items-center gap-2 transition-all duration-300 ease-out"
+          className="btn-secondary text-sm px-4 py-2"
         >
           <RefreshCw className={clsx('w-4 h-4', loading && 'animate-spin')} />
           Refresh
         </motion.button>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {statsCards.map((stat, i) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="glass rounded-xl p-4"
+            className="premium-card group"
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs text-dark-400">{stat.label}</span>
-              <div
-                className={clsx(
-                  'w-8 h-8 rounded-lg bg-gradient-to-br flex items-center justify-center shadow-lg',
-                  stat.color,
-                  stat.shadow
-                )}
-              >
-                <stat.icon className="w-4 h-4 text-white" />
+              <span className="text-xs text-dark-400 font-medium">{stat.label}</span>
+              <div className={clsx(
+                'w-9 h-9 rounded-xl bg-gradient-to-br flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300',
+                stat.gradient,
+                stat.glow
+              )}>
+                <stat.icon className="w-4.5 h-4.5 text-white" />
               </div>
             </div>
             <div className="text-2xl font-bold text-dark-50">{stat.value}</div>

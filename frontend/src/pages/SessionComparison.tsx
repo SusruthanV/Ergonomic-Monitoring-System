@@ -146,7 +146,7 @@ export default function SessionComparison() {
           <select
             value={session1Id || ''}
             onChange={(e) => setSession1Id(Number(e.target.value))}
-            className="w-full bg-dark-800 border border-dark-700 rounded-lg px-3 py-2.5 text-sm text-dark-100 focus:outline-none focus:border-primary-500 transition-colors"
+            className="w-full input-premium appearance-none cursor-pointer"
           >
             {sessions.map((s) => (
               <option key={s.id} value={s.id} disabled={s.id === session2Id}>
@@ -162,13 +162,13 @@ export default function SessionComparison() {
           transition={{ delay: 0.15 }}
           className="glass rounded-xl p-4"
         >
-          <label className="text-xs text-dark-400 uppercase tracking-wider mb-2 block">
+          <label className="text-xs text-dark-400 uppercase tracking-wider mb-2 block font-medium">
             Session 2 (After)
           </label>
           <select
             value={session2Id || ''}
             onChange={(e) => setSession2Id(Number(e.target.value))}
-            className="w-full bg-dark-800 border border-dark-700 rounded-lg px-3 py-2.5 text-sm text-dark-100 focus:outline-none focus:border-primary-500 transition-colors"
+            className="w-full input-premium appearance-none cursor-pointer"
           >
             {sessions.map((s) => (
               <option key={s.id} value={s.id} disabled={s.id === session1Id}>
@@ -190,10 +190,10 @@ export default function SessionComparison() {
           onClick={handleCompare}
           disabled={comparing || !session1Id || !session2Id || session1Id === session2Id}
           className={clsx(
-            'px-6 py-3 rounded-xl font-medium text-sm flex items-center gap-2 transition-all duration-200',
+            'px-6 py-3 rounded-xl font-semibold text-sm flex items-center gap-2 transition-all duration-300',
             comparing
               ? 'bg-primary-500/50 text-white cursor-not-allowed'
-              : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40'
+              : 'btn-primary shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40'
           )}
         >
           {comparing ? (
@@ -222,45 +222,45 @@ export default function SessionComparison() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1 }}
-              className="glass rounded-xl p-4 text-center"
+              className="premium-card text-center"
             >
-              <div className="w-10 h-10 rounded-lg bg-secondary-500/10 flex items-center justify-center mx-auto mb-2">
+              <div className="w-10 h-10 rounded-xl bg-secondary-500/10 flex items-center justify-center mx-auto mb-2">
                 <TrendingUp className="w-5 h-5 text-secondary-400" />
               </div>
               <div className="text-2xl font-bold text-secondary-400">
                 {comparison.summary.improved_count}
               </div>
-              <div className="text-xs text-dark-400">Improved</div>
+              <div className="text-xs text-dark-400 font-medium">Improved</div>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.15 }}
-              className="glass rounded-xl p-4 text-center"
+              className="premium-card text-center"
             >
-              <div className="w-10 h-10 rounded-lg bg-dark-700 flex items-center justify-center mx-auto mb-2">
+              <div className="w-10 h-10 rounded-xl bg-white/[0.03] flex items-center justify-center mx-auto mb-2 border border-white/[0.06]">
                 <BarChart3 className="w-5 h-5 text-dark-400" />
               </div>
               <div className="text-2xl font-bold text-dark-400">
                 {comparison.summary.unchanged_count}
               </div>
-              <div className="text-xs text-dark-400">Unchanged</div>
+              <div className="text-xs text-dark-400 font-medium">Unchanged</div>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="glass rounded-xl p-4 text-center"
+              className="premium-card text-center"
             >
-              <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center mx-auto mb-2">
+              <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center mx-auto mb-2">
                 <TrendingDown className="w-5 h-5 text-red-400" />
               </div>
               <div className="text-2xl font-bold text-red-400">
                 {comparison.summary.declined_count}
               </div>
-              <div className="text-xs text-dark-400">Declined</div>
+              <div className="text-xs text-dark-400 font-medium">Declined</div>
             </motion.div>
           </div>
 
@@ -273,10 +273,10 @@ export default function SessionComparison() {
               className="glass rounded-xl p-4"
             >
               <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 rounded-lg bg-dark-700 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center">
                   <Calendar className="w-4 h-4 text-dark-400" />
                 </div>
-                <span className="text-sm font-medium text-dark-200">Session 1</span>
+                <span className="text-sm font-semibold text-dark-200">Session 1</span>
               </div>
               <p className="text-xs text-dark-400 mb-2">{formatISTShort(comparison.session_1.created_at)}</p>
               <div className="flex items-center gap-2 text-xs text-dark-500">

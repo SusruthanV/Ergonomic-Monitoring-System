@@ -100,7 +100,7 @@ export default function ExercisePlayer({ exercise, onClose }: ExercisePlayerProp
         className="glass rounded-2xl w-full max-w-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-dark-800 sticky top-0 bg-dark-900/95 backdrop-blur-sm z-10">
+        <div className="flex items-center justify-between p-4 border-b border-dark-800/50 sticky top-0 bg-dark-900/95 backdrop-blur-sm z-10">
           <div>
             <h2 className="text-lg font-bold text-dark-50">{exercise.name}</h2>
             <p className="text-xs text-dark-400">
@@ -109,7 +109,7 @@ export default function ExercisePlayer({ exercise, onClose }: ExercisePlayerProp
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-lg glass flex items-center justify-center hover:bg-dark-700 transition-colors"
+            className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center hover:bg-white/[0.06] transition-colors"
           >
             <X className="w-4 h-4 text-dark-400" />
           </button>
@@ -179,7 +179,7 @@ export default function ExercisePlayer({ exercise, onClose }: ExercisePlayerProp
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center py-8"
               >
-                <div className="w-20 h-20 rounded-full bg-secondary-500/10 flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 rounded-full bg-secondary-500/10 flex items-center justify-center mx-auto mb-4 border border-secondary-500/20">
                   <CheckCircle className="w-10 h-10 text-secondary-400" />
                 </div>
                 <h3 className="text-xl font-bold text-dark-50 mb-2">Exercise Complete!</h3>
@@ -192,14 +192,14 @@ export default function ExercisePlayer({ exercise, onClose }: ExercisePlayerProp
                 <div className="flex gap-3 justify-center">
                   <button
                     onClick={handleRestart}
-                    className="px-4 py-2 rounded-xl glass glass-hover text-sm text-dark-300 flex items-center gap-2"
+                    className="btn-secondary"
                   >
                     <RotateCcw className="w-4 h-4" />
                     Do Again
                   </button>
                   <button
                     onClick={onClose}
-                    className="px-4 py-2 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium flex items-center gap-2"
+                    className="btn-primary"
                   >
                     Done
                   </button>
@@ -289,14 +289,14 @@ export default function ExercisePlayer({ exercise, onClose }: ExercisePlayerProp
             <button
               onClick={goToPrevStep}
               disabled={currentStep === 0}
-              className="w-10 h-10 rounded-xl glass flex items-center justify-center disabled:opacity-30 hover:bg-dark-700 transition-colors"
+              className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center disabled:opacity-30 hover:bg-white/[0.06] transition-all"
             >
               <SkipBack className="w-4 h-4 text-dark-300" />
             </button>
 
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-violet-600 flex items-center justify-center shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 transition-shadow"
+              className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-violet-600 flex items-center justify-center shadow-xl shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-105 transition-all duration-300"
             >
               {isPlaying ? (
                 <Pause className="w-6 h-6 text-white" />
@@ -308,7 +308,7 @@ export default function ExercisePlayer({ exercise, onClose }: ExercisePlayerProp
             <button
               onClick={goToNextStep}
               disabled={currentStep === totalSteps - 1}
-              className="w-10 h-10 rounded-xl glass flex items-center justify-center disabled:opacity-30 hover:bg-dark-700 transition-colors"
+              className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center disabled:opacity-30 hover:bg-white/[0.06] transition-all"
             >
               <SkipForward className="w-4 h-4 text-dark-300" />
             </button>

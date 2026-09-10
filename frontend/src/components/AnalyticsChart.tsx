@@ -29,9 +29,9 @@ const timeRanges = [
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="glass rounded-xl px-3 py-2 shadow-xl">
+    <div className="glass rounded-xl px-3.5 py-2.5 shadow-2xl border border-dark-700/50">
       <p className="text-xs text-dark-400 mb-1">{label}</p>
-      <p className="text-sm font-semibold text-dark-50">
+      <p className="text-sm font-bold text-dark-50">
         {parseFloat(payload[0].value).toFixed(1)}
       </p>
     </div>
@@ -61,10 +61,10 @@ export default function AnalyticsChart({ data, dataKey, color, title }: Analytic
               key={r.days}
               onClick={() => setRange(r.days)}
               className={clsx(
-                'px-2.5 py-1 rounded-lg text-xs font-medium transition-all duration-300 ease-out',
+                'px-2.5 py-1 rounded-lg text-xs font-semibold transition-all duration-200',
                 range === r.days
-                  ? 'bg-primary-500/20 text-primary-400'
-                  : 'text-dark-400 hover:text-dark-50 hover:bg-dark-800/40'
+                  ? 'bg-primary-500/15 text-primary-400 border border-primary-500/20'
+                  : 'text-dark-400 hover:text-dark-50 hover:bg-white/[0.04]'
               )}
             >
               {r.label}

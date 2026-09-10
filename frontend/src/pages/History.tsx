@@ -173,7 +173,7 @@ export default function History() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             onClick={handleExportCsv}
-            className="px-4 py-2 rounded-xl glass glass-hover text-sm text-dark-300 flex items-center gap-2"
+            className="btn-secondary px-4 py-2 text-sm"
           >
             <Download className="w-4 h-4" />
             CSV
@@ -183,7 +183,7 @@ export default function History() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.05 }}
             onClick={handleExport}
-            className="px-4 py-2 rounded-xl glass glass-hover text-sm text-dark-300 flex items-center gap-2"
+            className="btn-secondary px-4 py-2 text-sm"
           >
             <Download className="w-4 h-4" />
             JSON
@@ -192,18 +192,18 @@ export default function History() {
       </div>
 
       <div className="relative mb-4">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-dark-400" />
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-dark-500" />
         <input
           type="text"
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
           placeholder="Search sessions by date, ID, or score..."
-          className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-dark-800/40 border border-dark-800 text-sm text-dark-50 placeholder-dark-400 focus:outline-none focus:border-primary-500/50 focus:bg-dark-800/60 transition-all duration-300 ease-out"
+          className="input-premium pl-11 pr-10"
         />
         {search && (
           <button
             onClick={() => setSearch('')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 hover:text-dark-50 transition-colors duration-300 ease-out"
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-dark-500 hover:text-dark-300 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -231,17 +231,17 @@ export default function History() {
                   <button
                     onClick={() => setPage((p) => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-800/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ease-out"
+                    className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-white/[0.04] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
-                  <span className="text-xs text-dark-400">
+                  <span className="text-xs text-dark-400 font-medium">
                     Page {page} of {totalPages}
                   </span>
                   <button
                     onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-dark-800/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-300 ease-out"
+                    className="p-2 rounded-lg text-dark-400 hover:text-dark-50 hover:bg-white/[0.04] disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -280,8 +280,10 @@ export default function History() {
                 </div>
               ) : sessionDetail ? (
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3 p-3 rounded-xl bg-dark-800/50">
-                    <Award className="w-8 h-8 text-primary-400" />
+                  <div className="flex items-center gap-3 p-3.5 rounded-xl bg-white/[0.03] border border-white/[0.04]">
+                    <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center">
+                      <Award className="w-5 h-5 text-primary-400" />
+                    </div>
                     <div>
                       <div className="text-2xl font-bold text-dark-50">
                         {sessionDetail.overall_score?.toFixed(0) || selectedSession.overall_score.toFixed(0)}
@@ -330,13 +332,13 @@ export default function History() {
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-2">
                         <FileText className="w-4 h-4 text-dark-400" />
-                        <span className="text-xs text-dark-400">Session Notes</span>
+                        <span className="text-xs text-dark-400 font-medium">Session Notes</span>
                       </div>
                       <button
                         onClick={handleSaveNotes}
                         disabled={savingNotes}
                         className={clsx(
-                          'flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all duration-200',
+                          'flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all',
                           savingNotes
                             ? 'text-dark-500 cursor-not-allowed'
                             : 'text-primary-400 hover:bg-primary-500/10'
@@ -351,7 +353,7 @@ export default function History() {
                       onChange={(e) => setSessionNotes(e.target.value)}
                       placeholder="Add notes about this session..."
                       rows={3}
-                      className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-700 text-sm text-dark-50 placeholder-dark-500 focus:outline-none focus:border-primary-500/50 resize-none transition-all duration-200"
+                      className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-700/50 text-sm text-dark-50 placeholder-dark-500 focus:outline-none focus:border-primary-500/50 resize-none transition-all"
                     />
                   </div>
                 </div>

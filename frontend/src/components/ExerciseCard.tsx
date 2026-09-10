@@ -26,11 +26,10 @@ export default function ExerciseCard({ exercise, onSelect, isRecommended }: Exer
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -2 }}
+      whileHover={{ y: -3, scale: 1.01 }}
       onClick={() => onSelect(exercise)}
       className={clsx(
-        'glass rounded-xl p-4 cursor-pointer transition-all duration-200 group',
-        'hover:border-primary-500/30 hover:bg-dark-800/50',
+        'premium-card cursor-pointer gradient-border',
         isRecommended && 'ring-1 ring-primary-500/20'
       )}
     >

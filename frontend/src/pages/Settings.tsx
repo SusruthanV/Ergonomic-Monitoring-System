@@ -68,11 +68,11 @@ export default function Settings() {
       content: (
         <div className="space-y-3">
           <div>
-            <label className="text-xs text-dark-400 mb-1.5 block">Camera Device</label>
+            <label className="text-xs text-dark-400 mb-1.5 block font-medium">Camera Device</label>
             <select
               value={cameraDevice}
               onChange={(e) => { setCameraDevice(e.target.value); markUnsaved(); }}
-              className="w-full px-3 py-2 rounded-xl bg-dark-800/40 border border-dark-800 text-sm text-dark-50 focus:outline-none focus:border-primary-500/50 transition-all duration-300 ease-out appearance-none"
+              className="input-premium appearance-none cursor-pointer"
             >
               <option value="default">Default Camera</option>
               <option value="external">External Camera</option>
@@ -89,7 +89,7 @@ export default function Settings() {
       content: (
         <div className="space-y-4">
           <div>
-            <label className="text-xs text-dark-400 mb-1.5 block">
+            <label className="text-xs text-dark-400 mb-1.5 block font-medium">
               Analysis Interval: {(analysisInterval / 1000).toFixed(1)}s
             </label>
             <input
@@ -101,7 +101,7 @@ export default function Settings() {
               onChange={(e) => { setAnalysisInterval(Number(e.target.value)); markUnsaved(); }}
               className="w-full accent-primary-500"
             />
-            <div className="flex justify-between text-[10px] text-dark-500">
+            <div className="flex justify-between text-[10px] text-dark-500 mt-1">
               <span>0.5s</span>
               <span>5.0s</span>
             </div>
@@ -122,7 +122,7 @@ export default function Settings() {
             { label: 'Spine Angle Threshold', value: spineThreshold, set: setSpineThreshold, max: 45 },
           ].map((t) => (
             <div key={t.label}>
-              <label className="text-xs text-dark-400 mb-1.5 block">{t.label}: {t.value}°</label>
+              <label className="text-xs text-dark-400 mb-1.5 block font-medium">{t.label}: {t.value}°</label>
               <input
                 type="range"
                 min={5}
@@ -144,22 +144,22 @@ export default function Settings() {
       description: 'Control alert preferences',
       content: (
         <div className="space-y-3">
-          <label className="flex items-center justify-between p-3 rounded-xl bg-dark-800/30 cursor-pointer">
+          <label className="flex items-center justify-between p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04] cursor-pointer hover:bg-white/[0.04] transition-all">
             <div>
-              <span className="text-sm text-dark-50">Push Notifications</span>
-              <p className="text-xs text-dark-400">Receive alerts for poor posture</p>
+              <span className="text-sm text-dark-50 font-medium">Push Notifications</span>
+              <p className="text-xs text-dark-400 mt-0.5">Receive alerts for poor posture</p>
             </div>
             <button
               onClick={() => { setNotifications(!notifications); markUnsaved(); }}
               className={clsx(
-                'w-10 h-6 rounded-full transition-all duration-300 ease-out relative',
-                notifications ? 'bg-primary-500' : 'bg-dark-600'
+                'w-11 h-6 rounded-full transition-all duration-300 relative',
+                notifications ? 'bg-gradient-to-r from-primary-500 to-violet-500' : 'bg-dark-600'
               )}
             >
               <div
                 className={clsx(
-                  'absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-300 ease-out',
-                  notifications ? 'left-[18px]' : 'left-0.5'
+                  'absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-md transition-all duration-300',
+                  notifications ? 'left-[22px]' : 'left-0.5'
                 )}
               />
             </button>
@@ -174,22 +174,22 @@ export default function Settings() {
       description: 'Configure audio alerts for posture and blink reminders',
       content: (
         <div className="space-y-4">
-          <label className="flex items-center justify-between p-3 rounded-xl bg-dark-800/30 cursor-pointer">
+          <label className="flex items-center justify-between p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.04] cursor-pointer hover:bg-white/[0.04] transition-all">
             <div>
-              <span className="text-sm text-dark-50">Sound Alerts</span>
-              <p className="text-xs text-dark-400">Play audio when scores drop below thresholds</p>
+              <span className="text-sm text-dark-50 font-medium">Sound Alerts</span>
+              <p className="text-xs text-dark-400 mt-0.5">Play audio when scores drop below thresholds</p>
             </div>
             <button
               onClick={() => { setSoundEnabled(!soundEnabled); markUnsaved(); }}
               className={clsx(
-                'w-10 h-6 rounded-full transition-all duration-300 ease-out relative',
-                soundEnabled ? 'bg-primary-500' : 'bg-dark-600'
+                'w-11 h-6 rounded-full transition-all duration-300 relative',
+                soundEnabled ? 'bg-gradient-to-r from-primary-500 to-violet-500' : 'bg-dark-600'
               )}
             >
               <div
                 className={clsx(
-                  'absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-all duration-300 ease-out',
-                  soundEnabled ? 'left-[18px]' : 'left-0.5'
+                  'absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-md transition-all duration-300',
+                  soundEnabled ? 'left-[22px]' : 'left-0.5'
                 )}
               />
             </button>
@@ -197,7 +197,7 @@ export default function Settings() {
           {soundEnabled && (
             <>
               <div>
-                <label className="text-xs text-dark-400 mb-1.5 block">Volume: {Math.round(volume * 100)}%</label>
+                <label className="text-xs text-dark-400 mb-1.5 block font-medium">Volume: {Math.round(volume * 100)}%</label>
                 <input
                   type="range"
                   min={0}
@@ -207,7 +207,7 @@ export default function Settings() {
                   onChange={(e) => { setVolume(Number(e.target.value)); markUnsaved(); }}
                   className="w-full accent-primary-500"
                 />
-                <div className="flex justify-between text-[10px] text-dark-500">
+                <div className="flex justify-between text-[10px] text-dark-500 mt-1">
                   <span>Mute</span>
                   <span>Max</span>
                 </div>
@@ -227,7 +227,7 @@ export default function Settings() {
                     osc.stop(ctx.currentTime + 0.3);
                   } catch (e) { /* ignore */ }
                 }}
-                className="w-full px-4 py-2.5 rounded-xl bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-medium hover:bg-primary-500/20 transition-all duration-300 ease-out flex items-center justify-center gap-2"
+                className="w-full px-4 py-2.5 rounded-xl bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-medium hover:bg-primary-500/20 transition-all flex items-center justify-center gap-2"
               >
                 <VolumeX className="w-4 h-4" />
                 Test Sound
@@ -245,7 +245,7 @@ export default function Settings() {
       content: (
         <div className="space-y-4">
           <div>
-            <label className="text-xs text-dark-400 mb-1.5 block">Data Retention Period: {dataRetention} days</label>
+            <label className="text-xs text-dark-400 mb-1.5 block font-medium">Data Retention Period: {dataRetention} days</label>
             <input
               type="range"
               min={7}
@@ -255,14 +255,14 @@ export default function Settings() {
               onChange={(e) => { setDataRetention(Number(e.target.value)); markUnsaved(); }}
               className="w-full accent-primary-500"
             />
-            <div className="flex justify-between text-[10px] text-dark-500">
+            <div className="flex justify-between text-[10px] text-dark-500 mt-1">
               <span>7 days</span>
               <span>365 days</span>
             </div>
           </div>
           <button
             onClick={() => setConfirmReset(true)}
-            className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/20 transition-all duration-300 ease-out flex items-center justify-center gap-2"
+            className="w-full px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/20 transition-all flex items-center justify-center gap-2"
           >
             <Trash2 className="w-4 h-4" />
             Reset All Data
@@ -285,10 +285,10 @@ export default function Settings() {
               key={t.mode}
               onClick={() => { setTheme(t.mode); markUnsaved(); }}
               className={clsx(
-                'flex-1 p-4 rounded-xl flex flex-col items-center gap-2 transition-all duration-300 ease-out',
+                'flex-1 p-4 rounded-xl flex flex-col items-center gap-2 transition-all duration-300',
                 theme === t.mode
-                  ? 'bg-primary-500/10 border border-primary-500/30 text-primary-400'
-                  : 'bg-dark-800/30 border border-dark-800 text-dark-400 hover:text-dark-50'
+                  ? 'bg-primary-500/10 border border-primary-500/30 text-primary-400 shadow-lg shadow-primary-500/10'
+                  : 'bg-white/[0.02] border border-white/[0.04] text-dark-400 hover:text-dark-50 hover:bg-white/[0.04]'
               )}
             >
               <t.icon className="w-6 h-6" />
@@ -338,10 +338,8 @@ export default function Settings() {
           onClick={() => { setSaved(true); toast('Changes discarded'); }}
           disabled={saved}
           className={clsx(
-            'px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ease-out flex items-center gap-2',
-            saved
-              ? 'text-dark-500 cursor-not-allowed'
-              : 'glass glass-hover text-dark-300'
+            'btn-secondary px-6 py-2.5',
+            saved && 'opacity-40 cursor-not-allowed transform-none'
           )}
         >
           <X className="w-4 h-4" />
@@ -351,10 +349,9 @@ export default function Settings() {
           onClick={handleSave}
           disabled={saved}
           className={clsx(
-            'px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ease-out flex items-center gap-2',
             saved
-              ? 'bg-primary-500/30 text-primary-300 cursor-not-allowed'
-              : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/25'
+              ? 'bg-primary-500/30 text-primary-300 cursor-not-allowed px-6 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2'
+              : 'btn-primary px-6 py-2.5'
           )}
         >
           <Save className="w-4 h-4" />
@@ -377,7 +374,9 @@ export default function Settings() {
               className="glass rounded-2xl p-6 max-w-sm mx-4"
             >
               <div className="flex items-center gap-3 mb-4">
-                <Trash2 className="w-6 h-6 text-red-400" />
+                <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
+                  <Trash2 className="w-5 h-5 text-red-400" />
+                </div>
                 <h3 className="text-lg font-semibold text-dark-50">Reset All Data?</h3>
               </div>
               <p className="text-sm text-dark-300 mb-6">
@@ -386,14 +385,15 @@ export default function Settings() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setConfirmReset(false)}
-                  className="flex-1 px-4 py-2.5 rounded-xl glass glass-hover text-sm font-medium text-dark-300"
+                  className="flex-1 btn-secondary py-2.5"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleReset}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-300 ease-out"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm font-medium transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-red-500/25"
                 >
+                  <Trash2 className="w-4 h-4" />
                   Reset All
                 </button>
               </div>

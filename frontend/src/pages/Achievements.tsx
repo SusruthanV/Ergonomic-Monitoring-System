@@ -79,23 +79,23 @@ export default function Achievements() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {[
-          { label: 'Current Streak', value: `${stats?.current_streak || 0}d`, icon: Flame, color: 'from-orange-500 to-red-500' },
-          { label: 'Best Streak', value: `${stats?.best_streak || 0}d`, icon: TrendingUp, color: 'from-violet-500 to-purple-600' },
-          { label: 'Total Sessions', value: stats?.total_sessions || 0, icon: Target, color: 'from-cyan-500 to-blue-600' },
-          { label: 'Total Hours', value: stats?.total_hours || 0, icon: Clock, color: 'from-green-500 to-emerald-600' },
+          { label: 'Current Streak', value: `${stats?.current_streak || 0}d`, icon: Flame, gradient: 'from-orange-500 to-red-500', glow: 'shadow-orange-500/20' },
+          { label: 'Best Streak', value: `${stats?.best_streak || 0}d`, icon: TrendingUp, gradient: 'from-violet-500 to-purple-600', glow: 'shadow-violet-500/20' },
+          { label: 'Total Sessions', value: stats?.total_sessions || 0, icon: Target, gradient: 'from-cyan-500 to-blue-600', glow: 'shadow-cyan-500/20' },
+          { label: 'Total Hours', value: stats?.total_hours || 0, icon: Clock, gradient: 'from-green-500 to-emerald-600', glow: 'shadow-green-500/20' },
         ].map((item, i) => (
           <motion.div
             key={item.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1 }}
-            className="glass rounded-2xl p-4"
+            className="premium-card group"
           >
-            <div className={clsx('w-10 h-10 rounded-xl bg-gradient-to-br flex items-center justify-center mb-3', item.color)}>
+            <div className={clsx('w-10 h-10 rounded-xl bg-gradient-to-br flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 shadow-lg', item.gradient, item.glow)}>
               <item.icon className="w-5 h-5 text-white" />
             </div>
             <p className="text-2xl font-bold text-dark-50">{item.value}</p>
-            <p className="text-xs text-dark-400">{item.label}</p>
+            <p className="text-xs text-dark-400 font-medium">{item.label}</p>
           </motion.div>
         ))}
       </div>
@@ -118,10 +118,10 @@ export default function Achievements() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 + i * 0.05 }}
                 className={clsx(
-                  'glass rounded-2xl p-5 flex items-start gap-4 transition-all duration-300',
+                  'premium-card flex items-start gap-4',
                   badge.earned
-                    ? 'border-primary-500/30 hover:border-primary-500/50'
-                    : 'opacity-50 grayscale hover:opacity-70 hover:grayscale-0'
+                    ? 'border-primary-500/20 hover:border-primary-500/30'
+                    : 'opacity-40 grayscale hover:opacity-60 hover:grayscale-0'
                 )}
               >
                 <div className={clsx(

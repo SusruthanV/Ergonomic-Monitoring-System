@@ -350,16 +350,16 @@ export default function Analysis() {
 
         <div className="flex items-center gap-3">
           {!isConnected && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-500/10 border border-accent-500/20">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-500/[0.08] border border-accent-500/20">
               <WifiOff className="w-3.5 h-3.5 text-accent-400" />
-              <span className="text-xs text-accent-400">Backend offline</span>
+              <span className="text-xs text-accent-400 font-medium">Backend offline</span>
             </div>
           )}
           {isSessionActive && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary-500/10 border border-primary-500/20"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary-500/[0.08] border border-primary-500/20"
             >
               <Timer className="w-4 h-4 text-primary-400" />
               <span className="text-sm font-mono font-bold text-primary-300">
@@ -369,26 +369,26 @@ export default function Analysis() {
           )}
           <div className="relative group">
             <button
-              className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 border border-dark-700 hover:border-dark-600 transition-all duration-200"
+              className="p-2 rounded-lg bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] hover:border-white/[0.1] transition-all duration-200"
               title="Keyboard shortcuts"
             >
               <Keyboard className="w-4 h-4 text-dark-300" />
             </button>
-            <div className="absolute right-0 top-full mt-2 w-56 p-3 rounded-xl bg-dark-800 border border-dark-700 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-              <p className="text-xs font-semibold text-dark-50 mb-2">Keyboard Shortcuts</p>
-              <div className="space-y-1.5 text-xs text-dark-400">
-                <div className="flex justify-between"><span>Start Camera</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">C</kbd></div>
-                <div className="flex justify-between"><span>Start Session</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">S</kbd></div>
-                <div className="flex justify-between"><span>Pause/Resume</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">Space</kbd></div>
-                <div className="flex justify-between"><span>Stop Session</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">R</kbd></div>
-                <div className="flex justify-between"><span>Fullscreen</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">F</kbd></div>
-                <div className="flex justify-between"><span>Exit Fullscreen</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700 text-dark-300 font-mono">Esc</kbd></div>
+            <div className="absolute right-0 top-full mt-2 w-56 p-3.5 rounded-xl glass border border-dark-700/50 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <p className="text-xs font-semibold text-dark-50 mb-2.5">Keyboard Shortcuts</p>
+              <div className="space-y-2 text-xs text-dark-400">
+                <div className="flex justify-between"><span>Start Camera</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700/80 text-dark-300 font-mono text-[10px]">C</kbd></div>
+                <div className="flex justify-between"><span>Start Session</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700/80 text-dark-300 font-mono text-[10px]">S</kbd></div>
+                <div className="flex justify-between"><span>Pause/Resume</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700/80 text-dark-300 font-mono text-[10px]">Space</kbd></div>
+                <div className="flex justify-between"><span>Stop Session</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700/80 text-dark-300 font-mono text-[10px]">R</kbd></div>
+                <div className="flex justify-between"><span>Fullscreen</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700/80 text-dark-300 font-mono text-[10px]">F</kbd></div>
+                <div className="flex justify-between"><span>Exit Fullscreen</span><kbd className="px-1.5 py-0.5 rounded bg-dark-700/80 text-dark-300 font-mono text-[10px]">Esc</kbd></div>
               </div>
             </div>
           </div>
           <button
             onClick={toggleFullscreen}
-            className="p-2 rounded-lg bg-dark-800 hover:bg-dark-700 border border-dark-700 hover:border-dark-600 transition-all duration-200"
+            className="p-2 rounded-lg bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] hover:border-white/[0.1] transition-all duration-200"
             title={isFullscreen ? 'Exit fullscreen (Esc)' : 'Fullscreen (F)'}
           >
             {isFullscreen ? (
@@ -422,10 +422,10 @@ export default function Analysis() {
               <button
                 onClick={togglePause}
                 className={clsx(
-                  'flex-1 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2',
+                  'flex-1 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2',
                   isPaused
-                    ? 'bg-secondary-500 hover:bg-secondary-600 text-white'
-                    : 'bg-accent-500 hover:bg-accent-600 text-white'
+                    ? 'bg-gradient-to-r from-secondary-500 to-emerald-600 text-white shadow-lg shadow-secondary-500/25 hover:shadow-secondary-500/40'
+                    : 'bg-gradient-to-r from-accent-500 to-orange-600 text-white shadow-lg shadow-accent-500/25 hover:shadow-accent-500/40'
                 )}
               >
                 {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
@@ -433,7 +433,7 @@ export default function Analysis() {
               </button>
               <button
                 onClick={stopSession}
-                className="flex-1 px-4 py-2 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-medium transition-all duration-300 ease-out flex items-center justify-center gap-2"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-lg shadow-red-500/25"
               >
                 <Square className="w-4 h-4" />
                 Stop
@@ -459,8 +459,8 @@ export default function Analysis() {
               animate={{ opacity: 1, y: 0 }}
               className="flex flex-col items-center justify-center py-20 text-center glass-card"
             >
-              <div className="w-20 h-20 rounded-2xl bg-dark-800/50 flex items-center justify-center mb-6">
-                <Activity className="w-10 h-10 text-dark-500" />
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary-500/10 to-violet-500/10 flex items-center justify-center mb-6 border border-primary-500/10">
+                <Activity className="w-10 h-10 text-primary-400/60" />
               </div>
               <h2 className="text-xl font-semibold text-dark-50 mb-2">Ready to analyze</h2>
               <p className="text-sm text-dark-400 mb-6 max-w-md">

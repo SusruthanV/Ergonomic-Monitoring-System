@@ -31,9 +31,9 @@ export default function ComparisonBar({
   const isUnchanged = change === 0;
 
   return (
-    <div className="glass rounded-xl p-4">
+    <div className="glass-card">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-sm font-medium text-dark-200">{label}</span>
+        <span className="text-sm font-semibold text-dark-200">{label}</span>
         <div className="flex items-center gap-1.5">
           {isUnchanged ? (
             <Minus className="w-4 h-4 text-dark-500" />

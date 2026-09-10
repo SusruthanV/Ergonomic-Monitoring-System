@@ -15,7 +15,7 @@ class Settings:
     HISTORY_RETENTION_DAYS = 30
     DATABASE_URL = os.environ.get(
         "DATABASE_URL",
-        "sqlite+aiosqlite:///./ergonomics.db"
+        "sqlite+aiosqlite:///./data/ergonomics.db"
     )
 
     JWT_SECRET = os.environ.get("JWT_SECRET", "super-secret-key-change-in-production-12345")

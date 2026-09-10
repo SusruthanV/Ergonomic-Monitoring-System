@@ -82,10 +82,10 @@ export default function Reports() {
                     onClick={() => handleDownload(period.value)}
                     disabled={generating !== null}
                     className={clsx(
-                      'glass rounded-xl p-4 text-left transition-all duration-200 group',
+                      'premium-card text-left group gradient-border',
                       generating === period.value
-                        ? 'border-primary-500/50 bg-primary-500/5'
-                        : 'hover:border-primary-500/30 hover:bg-dark-800/50'
+                        ? 'border-primary-500/50 bg-primary-500/[0.05]'
+                        : ''
                     )}
                   >
                     <div className="flex items-center justify-between mb-2">
