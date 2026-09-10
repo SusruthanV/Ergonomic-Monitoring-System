@@ -15,3 +15,9 @@ frontend/dist/
 .DS_Store
 Thumbs.db
 *.db
+
+# Docker
+*.log
+
+# Database files
+backend/data/

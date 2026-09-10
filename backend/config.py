@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=False)
 
 
 class Settings:
@@ -13,17 +13,20 @@ class Settings:
     SHOULDER_ANGLE_THRESHOLD = 25
     SPINE_ANGLE_THRESHOLD = 15
     HISTORY_RETENTION_DAYS = 30
-    DATABASE_URL = "sqlite+aiosqlite:///./ergonomics.db"
+    DATABASE_URL = os.environ.get(
+        "DATABASE_URL",
+        "sqlite+aiosqlite:///./ergonomics.db"
+    )
 
-    JWT_SECRET = os.getenv("JWT_SECRET", "super-secret-key-change-in-production-12345")
+    JWT_SECRET = os.environ.get("JWT_SECRET", "super-secret-key-change-in-production-12345")
     JWT_ALGORITHM = "HS256"
     JWT_ACCESS_EXPIRE_MINUTES = 60 * 24
 
-    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
-    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
-    SMTP_USER = os.getenv("SMTP_USER", "")
-    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
-    SMTP_FROM_EMAIL = os.getenv("SMTP_FROM_EMAIL", "")
+    SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
+    SMTP_USER = os.environ.get("SMTP_USER", "")
+    SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
+    SMTP_FROM_EMAIL = os.environ.get("SMTP_FROM_EMAIL", "")
 
     OTP_EXPIRE_MINUTES = 10
 

@@ -163,11 +163,6 @@ async def compare_sessions(session_id_1: int, session_id_2: int, db: AsyncSessio
     }
 
 
-static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
-if os.path.isdir(static_dir):
-    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
-
-
 @app.get("/health")
 async def health_check():
     return {
@@ -175,6 +170,11 @@ async def health_check():
         "service": "ergonomic-monitoring-system",
         "version": "1.0.0",
     }
+
+
+static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
+if os.path.isdir(static_dir):
+    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
 
 
 if __name__ == "__main__":
